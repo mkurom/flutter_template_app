@@ -10,7 +10,7 @@ class ConnpasEventPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(eventListProvider);
+    final provider = ref.watch(connpassEventsProvider);
 
     return Scaffold(
       appBar: AppBar(

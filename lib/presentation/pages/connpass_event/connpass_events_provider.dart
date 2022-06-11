@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter_template_app/domain/models/event/event.dart';
 
-final eventListProvider = FutureProvider<List<ConnpassEvent>>(
+final connpassEventsProvider = FutureProvider<List<ConnpassEvent>>(
   (ref) async {
     final response =
         await http.get(Uri.parse('https://connpass.com/api/v1/event/'));
