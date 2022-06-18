@@ -1,54 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template_app/presentation/pages/connpass_event/connpass_event_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+import 'package:flutter_template_app/providers/firebase_auth/authenticator.dart';
+import 'package:flutter_template_app/presentation/pages/splash/splash_page.dart';
+import 'package:flutter_template_app/presentation/pages/user_info/user_info_page.dart';
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
+class App extends ConsumerWidget {
+  const App({Key? key}) : super(key: key);
 
   @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isSignedIn = ref.watch(isSignedInProvider).value ?? false;
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      //
-      print('pause');
-    } else if (state == AppLifecycleState.inactive) {
-      //
-      print('inactive');
-    } else if (state == AppLifecycleState.resumed) {
-      //
-      print('resume');
-    } else if (state == AppLifecycleState.detached) {
-      //
-      print('detecte');
+    if (!isSignedIn) {
+      ref.watch(signInAnonymouslyProvider);
     }
 
-    super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ConnpasEventPage(),
+      // home: const ConnpasEventPage(),
+      home: isSignedIn ? const UserInfo() : const SplashPage(),
     );
   }
 }
