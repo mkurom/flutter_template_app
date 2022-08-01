@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_template_app/life_cycle_provider.dart';
+import 'package:flutter_template_app/presentation/pages/todo/todo_page.dart';
 import 'package:flutter_template_app/providers/firebase_auth/authenticator.dart';
 import 'package:flutter_template_app/presentation/pages/splash/splash_page.dart';
-import 'package:flutter_template_app/presentation/pages/user_info/user_info_page.dart';
 
 class App extends ConsumerWidget {
   const App({Key? key}) : super(key: key);
@@ -29,7 +29,7 @@ class App extends ConsumerWidget {
         primarySwatch: Colors.blue,
       ),
       // home: const ConnpasEventPage(),
-      home: isSignedIn ? const UserInfo() : const SplashPage(),
+      home: isSignedIn ? const TodoPage() : const SplashPage(),
     );
   }
 }
