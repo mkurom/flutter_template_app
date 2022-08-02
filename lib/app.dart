@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:flutter_template_app/life_cycle_provider.dart';
 import 'package:flutter_template_app/presentation/pages/todo/todo_page.dart';
@@ -28,7 +28,6 @@ class App extends ConsumerWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: const ConnpasEventPage(),
       home: isSignedIn ? const TodoPage() : const SplashPage(),
     );
   }

@@ -22,6 +22,7 @@ class ApiClientImpl implements ApiClient {
   Future<http.Response> fetchTodos() async {
     return http.get(
       Uri.parse(baseUrl),
+      headers: headers,
     );
   }
 }

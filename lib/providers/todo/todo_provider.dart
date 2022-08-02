@@ -1,16 +1,38 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:flutter_template_app/domain/models/todo/todo.dart';
 import 'package:flutter_template_app/repository/todo_repository/todo_repository.dart';
 
+enum TodoListFilter {
+  all,
+  active,
+  completed,
+}
+
+final todoListFilter = StateProvider((_) => TodoListFilter.all);
+
 final _todoListState = StateProvider<List<Todo>?>((ref) => null);
 
-final todoListState = StateProvider<List<Todo>?>((ref) {
-  final List<Todo>? todoList = ref.watch(_todoListState);
+final filteredTodos = Provider<List<Todo>>(
+  (ref) {
+    final filter = ref.watch(todoListFilter);
+    final todoList = ref.watch(_todoListState);
 
-  return todoList;
-});
+    if (todoList == null) {
+      return [];
+    }
+
+    switch (filter) {
+      case TodoListFilter.completed:
+        return todoList.where((todo) => todo.completed).toList();
+      case TodoListFilter.active:
+        return todoList.where((todo) => !todo.completed).toList();
+      case TodoListFilter.all:
+        return todoList;
+    }
+  },
+);
 
 final todoProvider = Provider.autoDispose((ref) => TodoProvider(ref.read));
 
@@ -19,6 +41,10 @@ class TodoProvider {
   TodoProvider(this._read);
 
   Future<void> initState() async {
+    await fetchTodoList();
+  }
+
+  Future<void> fetchTodoList() async {
     final result = await _read(todoRepository).fetchTodoList();
 
     result.when(
@@ -31,6 +57,17 @@ class TodoProvider {
         }
       },
     );
+  }
+
+  Future<void> toggle(Todo todo) async {
+    final List<Todo> newTodoList = [
+      ...(_read(_todoListState) ?? []).map(
+          (e) => (e.id == todo.id) ? e.copyWith(completed: !e.completed) : e)
+    ];
+    _read(_todoListState.notifier).state = newTodoList;
+
+    // Todo:更新処理を行う
+    //await _read(todoRepository).updateTodoList(newTodoList);
   }
 
   void dispose() {
