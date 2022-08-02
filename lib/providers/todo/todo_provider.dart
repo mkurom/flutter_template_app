@@ -59,6 +59,17 @@ class TodoProvider {
     );
   }
 
+  Future<void> toggle(Todo todo) async {
+    final List<Todo> newTodoList = [
+      ...(_read(_todoListState) ?? []).map(
+          (e) => (e.id == todo.id) ? e.copyWith(completed: !e.completed) : e)
+    ];
+    _read(_todoListState.notifier).state = newTodoList;
+
+    // Todo:更新処理を行う
+    //await _read(todoRepository).updateTodoList(newTodoList);
+  }
+
   void dispose() {
     _read(_todoListState)?.clear();
   }

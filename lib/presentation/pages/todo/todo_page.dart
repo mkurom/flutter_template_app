@@ -126,7 +126,7 @@ class _TodoTile extends HookConsumerWidget {
               ? const Icon(Icons.check_box, color: Colors.green)
               : const Icon(Icons.check_box_outline_blank),
           onPressed: () {
-            // ref.read(todoProvider).toggleDoneStatus(todo);
+            ref.read(todoProvider).toggle(todo);
           },
         ),
       ),
