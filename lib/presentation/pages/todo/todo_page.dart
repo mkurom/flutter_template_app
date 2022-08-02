@@ -24,9 +24,7 @@ class TodoPage extends HookConsumerWidget {
         await ref.read(todoProvider).initState();
         isLoading.value = false;
       });
-
-      return null;
-      // return ref.read(todoProvider).dispose;
+      return ref.read(todoProvider).dispose;
     }, []);
 
     if (isLoading.value) {
@@ -44,13 +42,20 @@ class TodoPage extends HookConsumerWidget {
             )
           : Column(
               children: [
-                TextField(controller: textController),
+                // TextField(controller: textController),
                 _TodoFilter(),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: todoList.length,
-                    itemBuilder: (context, int index) =>
-                        _TodoTile(todo: todoList[index]),
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      isLoading.value = true;
+                      await ref.read(todoProvider).initState();
+                      isLoading.value = false;
+                    },
+                    child: ListView.builder(
+                      itemCount: todoList.length,
+                      itemBuilder: (context, int index) =>
+                          _TodoTile(todo: todoList[index]),
+                    ),
                   ),
                 ),
               ],
@@ -71,6 +76,7 @@ class _TodoFilter extends HookConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
+        const Text('フィルター'),
         Tooltip(
           key: allFilterKey,
           message: 'All todos',
