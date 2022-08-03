@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,6 +15,17 @@ final allFilterKey = UniqueKey();
 class TodoPage extends HookConsumerWidget {
   const TodoPage({Key? key}) : super(key: key);
 
+  Future<void> fetch(WidgetRef ref) async {
+    try {
+      await ref.read(todoProvider).initState();
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+      // TODO:エラーダイアログの表示
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = useState<bool>(false);
@@ -21,9 +33,10 @@ class TodoPage extends HookConsumerWidget {
     useEffect(() {
       Future(() async {
         isLoading.value = true;
-        await ref.read(todoProvider).initState();
+        await fetch(ref);
         isLoading.value = false;
       });
+      // return null;
       return ref.read(todoProvider).dispose;
     }, []);
 
@@ -48,13 +61,14 @@ class TodoPage extends HookConsumerWidget {
                   child: RefreshIndicator(
                     onRefresh: () async {
                       isLoading.value = true;
-                      await ref.read(todoProvider).initState();
+                      await fetch(ref);
                       isLoading.value = false;
                     },
                     child: ListView.builder(
                       itemCount: todoList.length,
-                      itemBuilder: (context, int index) =>
-                          _TodoTile(todo: todoList[index]),
+                      itemBuilder: (context, int index) {
+                        return _TodoTile(todo: todoList[index]);
+                      },
                     ),
                   ),
                 ),
@@ -63,6 +77,10 @@ class TodoPage extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => const LocalTodoPage()),
+          // );
           // ref.read(todoProvider).addTodo(textController);
         },
       ),
