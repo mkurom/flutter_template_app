@@ -1,7 +1,7 @@
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 abstract class ApiClient {
-  Future<http.Response> fetchTodos();
+  Future<Response> fetchTodos();
 }
 
 class ApiClientImpl implements ApiClient {
@@ -19,8 +19,8 @@ class ApiClientImpl implements ApiClient {
   };
 
   @override
-  Future<http.Response> fetchTodos() async {
-    return http.get(
+  Future<Response> fetchTodos() async {
+    return get(
       Uri.parse(baseUrl),
       headers: headers,
     );
