@@ -36,11 +36,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   json_serializable: ^6.2.0
 
+  flutter_html: ^2.2.1
+
+  # 状態管理
   # riverpod: ^1.0.3
   # flutter_riverpod: ^1.0.4
   flutter_hooks: ^0.18.4
   hooks_riverpod: ^1.0.4
-
   get_it: ^7.2.0
 
   freezed_annotation: ^2.0.3
