@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_template_app/domain/models/event/event.dart';
-import 'package:flutter_template_app/presentation/pages/connpass_event/connpass_events_provider.dart';
+import 'package:flutter_template_app/providers/connpass_event/connpass_events_provider.dart';
 import 'package:flutter_template_app/presentation/pages/connpass_event/event_details/event_details_page.dart';
 
 class ConnpasEventPage extends ConsumerWidget {
