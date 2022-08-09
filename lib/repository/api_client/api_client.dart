@@ -21,7 +21,7 @@ class ApiClientImpl implements ApiClient {
   @override
   Future<Response> fetchTodos() async {
     return get(
-      Uri.parse(baseUrl),
+      Uri.parse('$baseUrl + todos'),
       headers: headers,
     );
   }

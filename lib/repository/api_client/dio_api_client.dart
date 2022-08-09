@@ -22,6 +22,6 @@ class DioClient with DioMixin implements Dio {
   DioClient._();
 
   Future<Response> fetchTodos() async {
-    return _instance!.get('');
+    return _instance!.get('todos');
   }
 }

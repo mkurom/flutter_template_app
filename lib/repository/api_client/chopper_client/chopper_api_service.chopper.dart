@@ -18,7 +18,7 @@ class _$ChopperApiService extends ChopperApiService {
 
   @override
   Future<Response<dynamic>> fetchTodos() {
-    final $url = '/';
+    final $url = '//todos';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }

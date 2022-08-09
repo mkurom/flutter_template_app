@@ -7,6 +7,6 @@ abstract class ChopperApiService extends ChopperService {
   static ChopperApiService create(ChopperClient client) =>
       _$ChopperApiService(client);
 
-  @Get(path: "")
+  @Get(path: "/todos")
   Future<Response> fetchTodos();
 }
