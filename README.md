@@ -8,6 +8,7 @@ MVVM とクリーンアーキテクチャを採用
 
 ## ディレクトリ構成
 
+```
 lib/
 ├── constants/ : 定数ファイル
 │
@@ -30,6 +31,7 @@ lib/
 └── presentation/
 ├── page/ : UI と notifier(viewmodel, application service の役割)
 └── widgets/ : 共通の再利用可能な UI コンポーネント
+```
 
 ## アーキテクチャ各層の説明
 
