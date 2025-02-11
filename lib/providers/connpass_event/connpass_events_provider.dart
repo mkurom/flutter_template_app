@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter_template_app/domain/models/event/event.dart';
+import 'package:flutter_template_app/domain/entities/event/event.dart';
 
 final connpassEventsProvider = FutureProvider<List<ConnpassEvent>>(
   (ref) async {

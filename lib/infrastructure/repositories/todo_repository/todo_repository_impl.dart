@@ -1,20 +1,17 @@
 import 'package:flutter_template_app/common/index.dart';
-import 'package:flutter_template_app/repository/api_client/dio_api_client.dart';
+import 'package:flutter_template_app/domain/repositories/todo_repository.dart';
+import 'package:flutter_template_app/infrastructure/api_client/dio_api_client.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:flutter_template_app/domain/models/result/result.dart';
-import 'package:flutter_template_app/domain/models/todo/todo.dart';
+import 'package:flutter_template_app/domain/entities/result/result.dart';
+import 'package:flutter_template_app/domain/entities/todo/todo.dart';
 
 final todoRepository =
-    Provider.autoDispose<TodoRepository>((ref) => TodoRepositoryImpl(ref.read));
-
-abstract class TodoRepository {
-  Future<Result<List<Todo>, int>> fetchTodoList();
-}
+    Provider.autoDispose<TodoRepository>((ref) => TodoRepositoryImpl(ref));
 
 class TodoRepositoryImpl implements TodoRepository {
-  final Reader _read;
-  TodoRepositoryImpl(this._read);
+  final Ref ref;
+  TodoRepositoryImpl(this.ref);
   // final _apiClient = ApiClientImpl(baseUrl: jsonplaceholderUrl);
   // final _apiClient = ChopperApiService.create(
   //     ChopperClientCreator.create(baseUrl: jsonplaceholderUrl));

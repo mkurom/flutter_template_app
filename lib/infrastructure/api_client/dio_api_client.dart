@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:dio/adapter.dart';
 
 class DioClient with DioMixin implements Dio {
   factory DioClient({String baseUrl = ''}) {
     if (_instance == null) {
       final dio = DioClient._();
-      dio.httpClientAdapter = DefaultHttpClientAdapter();
+      dio.httpClientAdapter = HttpClientAdapter();
       dio.options = BaseOptions(
         baseUrl: baseUrl,
         headers: {

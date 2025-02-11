@@ -5,22 +5,16 @@ import 'package:flutter_template_app/presentation/pages/todo/todo_page.dart';
 import 'package:flutter_template_app/tab_navigator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final _tabViewIndex = StateProvider<int>((_) => 0);
-
-final tabViewIndex = Provider<int>(
-  (ref) {
-    return ref.watch(_tabViewIndex);
-  },
-);
+final tabViewIndexProvider = StateProvider<int>((ref) => 0);
 
 final navigatorProvider =
-    Provider.autoDispose((ref) => TabNavigatorProvider(ref.read));
+    Provider.autoDispose((ref) => TabNavigatorProvider(ref));
 
 class TabNavigatorProvider {
-  final Reader _read;
-  TabNavigatorProvider(this._read);
+  final Ref _ref;
+  TabNavigatorProvider(this._ref);
 
-  List<Widget> widgetList = [
+  final List<Widget> widgetList = [
     const HomePage(),
     const TodoPage(),
     const ConnpasEventPage(),
@@ -34,11 +28,9 @@ class TabNavigatorProvider {
 
   Widget buildOffstageNavigator(int index) {
     final key = navigatorKeys[index]!;
-
-    final currentIndex = _read(tabViewIndex);
+    final currentIndex = _ref.watch(tabViewIndexProvider);
 
     return Offstage(
-      // ignore: unrelated_type_equality_checks
       offstage: index != currentIndex,
       child: TabNavigator(
         navigatorKey: key,
@@ -47,13 +39,13 @@ class TabNavigatorProvider {
     );
   }
 
-  void chnageTabView(int index) {
-    _read(_tabViewIndex.state).state = index;
+  void changeTabView(int index) {
+    _ref.read(tabViewIndexProvider.notifier).state = index;
   }
 }
 
 class AppRouteStack extends HookConsumerWidget {
-  const AppRouteStack({Key? key}) : super(key: key);
+  const AppRouteStack({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,8 +59,8 @@ class AppRouteStack extends HookConsumerWidget {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: ref.watch(tabViewIndex),
-        onTap: provider.chnageTabView,
+        currentIndex: ref.watch(tabViewIndexProvider),
+        onTap: provider.changeTabView,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

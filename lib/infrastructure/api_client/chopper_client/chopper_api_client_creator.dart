@@ -3,7 +3,7 @@ import 'package:chopper/chopper.dart';
 class ChopperClientCreator {
   static ChopperClient create({String baseUrl = ''}) {
     return ChopperClient(
-      baseUrl: baseUrl,
+      baseUrl: Uri(scheme: baseUrl),
       converter: const JsonConverter(),
       // errorConverter: const JsonConverter(),
       // interceptors: [

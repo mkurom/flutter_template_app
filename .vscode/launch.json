@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug local",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug"
+      //   "args": ["--dart-define-from-file=dart_defines/dev.json"]
+    },
+    {
+      "name": "Debug stg",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": ["--dart-define-from-file=dart_defines/stg.json"]
+    },
+    {
+      "name": "Release pro",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "args": ["--dart-define-from-file=dart_defines/pro.json"]
+    }
+  ]
+}

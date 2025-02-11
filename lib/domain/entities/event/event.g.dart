@@ -6,22 +6,22 @@ part of 'event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ConnpassEvent _$$_ConnpassEventFromJson(Map<String, dynamic> json) =>
-    _$_ConnpassEvent(
+_$ConnpassEventImpl _$$ConnpassEventImplFromJson(Map<String, dynamic> json) =>
+    _$ConnpassEventImpl(
       isExpanded: json['isExpanded'] as bool? ?? false,
-      eventId: json['eventId'] as int? ?? 0,
+      eventId: (json['eventId'] as num?)?.toInt() ?? 0,
       title: json['title'] as String? ?? '',
       catchKey: json['catchKey'] as String? ?? '',
       description: json['description'] as String? ?? '',
       eventUrl: json['eventUrl'] as String? ?? '',
       startedAt: json['startedAt'] as String? ?? '',
-      limit: json['limit'] as int? ?? 0,
+      limit: (json['limit'] as num?)?.toInt() ?? 0,
       hashTag: json['hashTag'] as String? ?? '',
       eventType: json['eventType'] as String? ?? '',
-      accepted: json['accepted'] as int? ?? 0,
-      waiting: json['waiting'] as int? ?? 0,
+      accepted: (json['accepted'] as num?)?.toInt() ?? 0,
+      waiting: (json['waiting'] as num?)?.toInt() ?? 0,
       updatedAt: json['updatedAt'] as String? ?? '',
-      ownerId: json['ownerId'] as int? ?? 0,
+      ownerId: (json['ownerId'] as num?)?.toInt() ?? 0,
       ownerNickname: json['ownerNickname'] as String? ?? '',
       ownerDisplayName: json['ownerDisplayName'] as String? ?? '',
       place: json['place'] as String? ?? '',
@@ -33,7 +33,7 @@ _$_ConnpassEvent _$$_ConnpassEventFromJson(Map<String, dynamic> json) =>
           : EventSeries.fromJson(json['series'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_ConnpassEventToJson(_$_ConnpassEvent instance) =>
+Map<String, dynamic> _$$ConnpassEventImplToJson(_$ConnpassEventImpl instance) =>
     <String, dynamic>{
       'isExpanded': instance.isExpanded,
       'eventId': instance.eventId,
@@ -58,14 +58,14 @@ Map<String, dynamic> _$$_ConnpassEventToJson(_$_ConnpassEvent instance) =>
       'series': instance.series,
     };
 
-_$_EventSeries _$$_EventSeriesFromJson(Map<String, dynamic> json) =>
-    _$_EventSeries(
-      id: json['id'] as int? ?? 0,
+_$EventSeriesImpl _$$EventSeriesImplFromJson(Map<String, dynamic> json) =>
+    _$EventSeriesImpl(
+      id: (json['id'] as num?)?.toInt() ?? 0,
       title: json['title'] as String? ?? '',
       url: json['url'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$_EventSeriesToJson(_$_EventSeries instance) =>
+Map<String, dynamic> _$$EventSeriesImplToJson(_$EventSeriesImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

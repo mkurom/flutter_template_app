@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:flutter_template_app/domain/models/todo/todo.dart';
+import 'package:flutter_template_app/domain/entities/todo/todo.dart';
 import 'package:flutter_template_app/providers/todo/todo_provider.dart';
 import 'package:flutter_template_app/presentation/pages/splash/splash_page.dart';
 
@@ -13,7 +13,7 @@ final completedFilterKey = UniqueKey();
 final allFilterKey = UniqueKey();
 
 class TodoPage extends HookConsumerWidget {
-  const TodoPage({Key? key}) : super(key: key);
+  const TodoPage({super.key});
 
   Future<void> fetch(WidgetRef ref) async {
     try {
