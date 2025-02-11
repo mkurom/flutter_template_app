@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import 'package:flutter_template_app/domain/models/event/event.dart';
+import 'package:flutter_template_app/domain/entities/event/event.dart';
 
 class ConnpasEventDetailsPage extends StatelessWidget {
-  const ConnpasEventDetailsPage({Key? key, required this.event})
-      : super(key: key);
+  const ConnpasEventDetailsPage({super.key, required this.event});
 
   final ConnpassEvent event;
 

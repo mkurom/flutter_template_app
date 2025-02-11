@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'event.dart';
 
@@ -12,7 +12,7 @@ part of 'event.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 ConnpassEvent _$ConnpassEventFromJson(Map<String, dynamic> json) {
   return _ConnpassEvent.fromJson(json);
@@ -42,8 +42,12 @@ mixin _$ConnpassEvent {
   String get lon => throw _privateConstructorUsedError;
   EventSeries? get series => throw _privateConstructorUsedError;
 
+  /// Serializes this ConnpassEvent to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ConnpassEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ConnpassEventCopyWith<ConnpassEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -52,7 +56,8 @@ mixin _$ConnpassEvent {
 abstract class $ConnpassEventCopyWith<$Res> {
   factory $ConnpassEventCopyWith(
           ConnpassEvent value, $Res Function(ConnpassEvent) then) =
-      _$ConnpassEventCopyWithImpl<$Res>;
+      _$ConnpassEventCopyWithImpl<$Res, ConnpassEvent>;
+  @useResult
   $Res call(
       {bool isExpanded,
       int eventId,
@@ -80,145 +85,153 @@ abstract class $ConnpassEventCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ConnpassEventCopyWithImpl<$Res>
+class _$ConnpassEventCopyWithImpl<$Res, $Val extends ConnpassEvent>
     implements $ConnpassEventCopyWith<$Res> {
   _$ConnpassEventCopyWithImpl(this._value, this._then);
 
-  final ConnpassEvent _value;
   // ignore: unused_field
-  final $Res Function(ConnpassEvent) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  /// Create a copy of ConnpassEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isExpanded = freezed,
-    Object? eventId = freezed,
-    Object? title = freezed,
-    Object? catchKey = freezed,
-    Object? description = freezed,
-    Object? eventUrl = freezed,
-    Object? startedAt = freezed,
-    Object? limit = freezed,
-    Object? hashTag = freezed,
-    Object? eventType = freezed,
-    Object? accepted = freezed,
-    Object? waiting = freezed,
-    Object? updatedAt = freezed,
-    Object? ownerId = freezed,
-    Object? ownerNickname = freezed,
-    Object? ownerDisplayName = freezed,
-    Object? place = freezed,
-    Object? address = freezed,
-    Object? lat = freezed,
-    Object? lon = freezed,
+    Object? isExpanded = null,
+    Object? eventId = null,
+    Object? title = null,
+    Object? catchKey = null,
+    Object? description = null,
+    Object? eventUrl = null,
+    Object? startedAt = null,
+    Object? limit = null,
+    Object? hashTag = null,
+    Object? eventType = null,
+    Object? accepted = null,
+    Object? waiting = null,
+    Object? updatedAt = null,
+    Object? ownerId = null,
+    Object? ownerNickname = null,
+    Object? ownerDisplayName = null,
+    Object? place = null,
+    Object? address = null,
+    Object? lat = null,
+    Object? lon = null,
     Object? series = freezed,
   }) {
     return _then(_value.copyWith(
-      isExpanded: isExpanded == freezed
+      isExpanded: null == isExpanded
           ? _value.isExpanded
           : isExpanded // ignore: cast_nullable_to_non_nullable
               as bool,
-      eventId: eventId == freezed
+      eventId: null == eventId
           ? _value.eventId
           : eventId // ignore: cast_nullable_to_non_nullable
               as int,
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      catchKey: catchKey == freezed
+      catchKey: null == catchKey
           ? _value.catchKey
           : catchKey // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      eventUrl: eventUrl == freezed
+      eventUrl: null == eventUrl
           ? _value.eventUrl
           : eventUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      startedAt: startedAt == freezed
+      startedAt: null == startedAt
           ? _value.startedAt
           : startedAt // ignore: cast_nullable_to_non_nullable
               as String,
-      limit: limit == freezed
+      limit: null == limit
           ? _value.limit
           : limit // ignore: cast_nullable_to_non_nullable
               as int,
-      hashTag: hashTag == freezed
+      hashTag: null == hashTag
           ? _value.hashTag
           : hashTag // ignore: cast_nullable_to_non_nullable
               as String,
-      eventType: eventType == freezed
+      eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
               as String,
-      accepted: accepted == freezed
+      accepted: null == accepted
           ? _value.accepted
           : accepted // ignore: cast_nullable_to_non_nullable
               as int,
-      waiting: waiting == freezed
+      waiting: null == waiting
           ? _value.waiting
           : waiting // ignore: cast_nullable_to_non_nullable
               as int,
-      updatedAt: updatedAt == freezed
+      updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
-      ownerId: ownerId == freezed
+      ownerId: null == ownerId
           ? _value.ownerId
           : ownerId // ignore: cast_nullable_to_non_nullable
               as int,
-      ownerNickname: ownerNickname == freezed
+      ownerNickname: null == ownerNickname
           ? _value.ownerNickname
           : ownerNickname // ignore: cast_nullable_to_non_nullable
               as String,
-      ownerDisplayName: ownerDisplayName == freezed
+      ownerDisplayName: null == ownerDisplayName
           ? _value.ownerDisplayName
           : ownerDisplayName // ignore: cast_nullable_to_non_nullable
               as String,
-      place: place == freezed
+      place: null == place
           ? _value.place
           : place // ignore: cast_nullable_to_non_nullable
               as String,
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      lat: lat == freezed
+      lat: null == lat
           ? _value.lat
           : lat // ignore: cast_nullable_to_non_nullable
               as String,
-      lon: lon == freezed
+      lon: null == lon
           ? _value.lon
           : lon // ignore: cast_nullable_to_non_nullable
               as String,
-      series: series == freezed
+      series: freezed == series
           ? _value.series
           : series // ignore: cast_nullable_to_non_nullable
               as EventSeries?,
-    ));
+    ) as $Val);
   }
 
+  /// Create a copy of ConnpassEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
+  @pragma('vm:prefer-inline')
   $EventSeriesCopyWith<$Res>? get series {
     if (_value.series == null) {
       return null;
     }
 
     return $EventSeriesCopyWith<$Res>(_value.series!, (value) {
-      return _then(_value.copyWith(series: value));
+      return _then(_value.copyWith(series: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$_ConnpassEventCopyWith<$Res>
+abstract class _$$ConnpassEventImplCopyWith<$Res>
     implements $ConnpassEventCopyWith<$Res> {
-  factory _$$_ConnpassEventCopyWith(
-          _$_ConnpassEvent value, $Res Function(_$_ConnpassEvent) then) =
-      __$$_ConnpassEventCopyWithImpl<$Res>;
+  factory _$$ConnpassEventImplCopyWith(
+          _$ConnpassEventImpl value, $Res Function(_$ConnpassEventImpl) then) =
+      __$$ConnpassEventImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {bool isExpanded,
       int eventId,
@@ -247,122 +260,122 @@ abstract class _$$_ConnpassEventCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ConnpassEventCopyWithImpl<$Res>
-    extends _$ConnpassEventCopyWithImpl<$Res>
-    implements _$$_ConnpassEventCopyWith<$Res> {
-  __$$_ConnpassEventCopyWithImpl(
-      _$_ConnpassEvent _value, $Res Function(_$_ConnpassEvent) _then)
-      : super(_value, (v) => _then(v as _$_ConnpassEvent));
+class __$$ConnpassEventImplCopyWithImpl<$Res>
+    extends _$ConnpassEventCopyWithImpl<$Res, _$ConnpassEventImpl>
+    implements _$$ConnpassEventImplCopyWith<$Res> {
+  __$$ConnpassEventImplCopyWithImpl(
+      _$ConnpassEventImpl _value, $Res Function(_$ConnpassEventImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _$_ConnpassEvent get _value => super._value as _$_ConnpassEvent;
-
+  /// Create a copy of ConnpassEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isExpanded = freezed,
-    Object? eventId = freezed,
-    Object? title = freezed,
-    Object? catchKey = freezed,
-    Object? description = freezed,
-    Object? eventUrl = freezed,
-    Object? startedAt = freezed,
-    Object? limit = freezed,
-    Object? hashTag = freezed,
-    Object? eventType = freezed,
-    Object? accepted = freezed,
-    Object? waiting = freezed,
-    Object? updatedAt = freezed,
-    Object? ownerId = freezed,
-    Object? ownerNickname = freezed,
-    Object? ownerDisplayName = freezed,
-    Object? place = freezed,
-    Object? address = freezed,
-    Object? lat = freezed,
-    Object? lon = freezed,
+    Object? isExpanded = null,
+    Object? eventId = null,
+    Object? title = null,
+    Object? catchKey = null,
+    Object? description = null,
+    Object? eventUrl = null,
+    Object? startedAt = null,
+    Object? limit = null,
+    Object? hashTag = null,
+    Object? eventType = null,
+    Object? accepted = null,
+    Object? waiting = null,
+    Object? updatedAt = null,
+    Object? ownerId = null,
+    Object? ownerNickname = null,
+    Object? ownerDisplayName = null,
+    Object? place = null,
+    Object? address = null,
+    Object? lat = null,
+    Object? lon = null,
     Object? series = freezed,
   }) {
-    return _then(_$_ConnpassEvent(
-      isExpanded: isExpanded == freezed
+    return _then(_$ConnpassEventImpl(
+      isExpanded: null == isExpanded
           ? _value.isExpanded
           : isExpanded // ignore: cast_nullable_to_non_nullable
               as bool,
-      eventId: eventId == freezed
+      eventId: null == eventId
           ? _value.eventId
           : eventId // ignore: cast_nullable_to_non_nullable
               as int,
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      catchKey: catchKey == freezed
+      catchKey: null == catchKey
           ? _value.catchKey
           : catchKey // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      eventUrl: eventUrl == freezed
+      eventUrl: null == eventUrl
           ? _value.eventUrl
           : eventUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      startedAt: startedAt == freezed
+      startedAt: null == startedAt
           ? _value.startedAt
           : startedAt // ignore: cast_nullable_to_non_nullable
               as String,
-      limit: limit == freezed
+      limit: null == limit
           ? _value.limit
           : limit // ignore: cast_nullable_to_non_nullable
               as int,
-      hashTag: hashTag == freezed
+      hashTag: null == hashTag
           ? _value.hashTag
           : hashTag // ignore: cast_nullable_to_non_nullable
               as String,
-      eventType: eventType == freezed
+      eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
               as String,
-      accepted: accepted == freezed
+      accepted: null == accepted
           ? _value.accepted
           : accepted // ignore: cast_nullable_to_non_nullable
               as int,
-      waiting: waiting == freezed
+      waiting: null == waiting
           ? _value.waiting
           : waiting // ignore: cast_nullable_to_non_nullable
               as int,
-      updatedAt: updatedAt == freezed
+      updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
-      ownerId: ownerId == freezed
+      ownerId: null == ownerId
           ? _value.ownerId
           : ownerId // ignore: cast_nullable_to_non_nullable
               as int,
-      ownerNickname: ownerNickname == freezed
+      ownerNickname: null == ownerNickname
           ? _value.ownerNickname
           : ownerNickname // ignore: cast_nullable_to_non_nullable
               as String,
-      ownerDisplayName: ownerDisplayName == freezed
+      ownerDisplayName: null == ownerDisplayName
           ? _value.ownerDisplayName
           : ownerDisplayName // ignore: cast_nullable_to_non_nullable
               as String,
-      place: place == freezed
+      place: null == place
           ? _value.place
           : place // ignore: cast_nullable_to_non_nullable
               as String,
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      lat: lat == freezed
+      lat: null == lat
           ? _value.lat
           : lat // ignore: cast_nullable_to_non_nullable
               as String,
-      lon: lon == freezed
+      lon: null == lon
           ? _value.lon
           : lon // ignore: cast_nullable_to_non_nullable
               as String,
-      series: series == freezed
+      series: freezed == series
           ? _value.series
           : series // ignore: cast_nullable_to_non_nullable
               as EventSeries?,
@@ -372,8 +385,8 @@ class __$$_ConnpassEventCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ConnpassEvent implements _ConnpassEvent {
-  _$_ConnpassEvent(
+class _$ConnpassEventImpl implements _ConnpassEvent {
+  _$ConnpassEventImpl(
       {this.isExpanded = false,
       this.eventId = 0,
       this.title = '',
@@ -396,8 +409,8 @@ class _$_ConnpassEvent implements _ConnpassEvent {
       this.lon = '',
       this.series});
 
-  factory _$_ConnpassEvent.fromJson(Map<String, dynamic> json) =>
-      _$$_ConnpassEventFromJson(json);
+  factory _$ConnpassEventImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ConnpassEventImplFromJson(json);
 
   @override
   @JsonKey()
@@ -468,72 +481,83 @@ class _$_ConnpassEvent implements _ConnpassEvent {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ConnpassEvent &&
-            const DeepCollectionEquality()
-                .equals(other.isExpanded, isExpanded) &&
-            const DeepCollectionEquality().equals(other.eventId, eventId) &&
-            const DeepCollectionEquality().equals(other.title, title) &&
-            const DeepCollectionEquality().equals(other.catchKey, catchKey) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
-            const DeepCollectionEquality().equals(other.eventUrl, eventUrl) &&
-            const DeepCollectionEquality().equals(other.startedAt, startedAt) &&
-            const DeepCollectionEquality().equals(other.limit, limit) &&
-            const DeepCollectionEquality().equals(other.hashTag, hashTag) &&
-            const DeepCollectionEquality().equals(other.eventType, eventType) &&
-            const DeepCollectionEquality().equals(other.accepted, accepted) &&
-            const DeepCollectionEquality().equals(other.waiting, waiting) &&
-            const DeepCollectionEquality().equals(other.updatedAt, updatedAt) &&
-            const DeepCollectionEquality().equals(other.ownerId, ownerId) &&
-            const DeepCollectionEquality()
-                .equals(other.ownerNickname, ownerNickname) &&
-            const DeepCollectionEquality()
-                .equals(other.ownerDisplayName, ownerDisplayName) &&
-            const DeepCollectionEquality().equals(other.place, place) &&
-            const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality().equals(other.lat, lat) &&
-            const DeepCollectionEquality().equals(other.lon, lon) &&
-            const DeepCollectionEquality().equals(other.series, series));
+            other is _$ConnpassEventImpl &&
+            (identical(other.isExpanded, isExpanded) ||
+                other.isExpanded == isExpanded) &&
+            (identical(other.eventId, eventId) || other.eventId == eventId) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.catchKey, catchKey) ||
+                other.catchKey == catchKey) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.eventUrl, eventUrl) ||
+                other.eventUrl == eventUrl) &&
+            (identical(other.startedAt, startedAt) ||
+                other.startedAt == startedAt) &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.hashTag, hashTag) || other.hashTag == hashTag) &&
+            (identical(other.eventType, eventType) ||
+                other.eventType == eventType) &&
+            (identical(other.accepted, accepted) ||
+                other.accepted == accepted) &&
+            (identical(other.waiting, waiting) || other.waiting == waiting) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
+            (identical(other.ownerNickname, ownerNickname) ||
+                other.ownerNickname == ownerNickname) &&
+            (identical(other.ownerDisplayName, ownerDisplayName) ||
+                other.ownerDisplayName == ownerDisplayName) &&
+            (identical(other.place, place) || other.place == place) &&
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.lat, lat) || other.lat == lat) &&
+            (identical(other.lon, lon) || other.lon == lon) &&
+            (identical(other.series, series) || other.series == series));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
-        const DeepCollectionEquality().hash(isExpanded),
-        const DeepCollectionEquality().hash(eventId),
-        const DeepCollectionEquality().hash(title),
-        const DeepCollectionEquality().hash(catchKey),
-        const DeepCollectionEquality().hash(description),
-        const DeepCollectionEquality().hash(eventUrl),
-        const DeepCollectionEquality().hash(startedAt),
-        const DeepCollectionEquality().hash(limit),
-        const DeepCollectionEquality().hash(hashTag),
-        const DeepCollectionEquality().hash(eventType),
-        const DeepCollectionEquality().hash(accepted),
-        const DeepCollectionEquality().hash(waiting),
-        const DeepCollectionEquality().hash(updatedAt),
-        const DeepCollectionEquality().hash(ownerId),
-        const DeepCollectionEquality().hash(ownerNickname),
-        const DeepCollectionEquality().hash(ownerDisplayName),
-        const DeepCollectionEquality().hash(place),
-        const DeepCollectionEquality().hash(address),
-        const DeepCollectionEquality().hash(lat),
-        const DeepCollectionEquality().hash(lon),
-        const DeepCollectionEquality().hash(series)
+        isExpanded,
+        eventId,
+        title,
+        catchKey,
+        description,
+        eventUrl,
+        startedAt,
+        limit,
+        hashTag,
+        eventType,
+        accepted,
+        waiting,
+        updatedAt,
+        ownerId,
+        ownerNickname,
+        ownerDisplayName,
+        place,
+        address,
+        lat,
+        lon,
+        series
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ConnpassEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  _$$_ConnpassEventCopyWith<_$_ConnpassEvent> get copyWith =>
-      __$$_ConnpassEventCopyWithImpl<_$_ConnpassEvent>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$ConnpassEventImplCopyWith<_$ConnpassEventImpl> get copyWith =>
+      __$$ConnpassEventImplCopyWithImpl<_$ConnpassEventImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ConnpassEventToJson(this);
+    return _$$ConnpassEventImplToJson(
+      this,
+    );
   }
 }
 
@@ -559,56 +583,59 @@ abstract class _ConnpassEvent implements ConnpassEvent {
       final String address,
       final String lat,
       final String lon,
-      final EventSeries? series}) = _$_ConnpassEvent;
+      final EventSeries? series}) = _$ConnpassEventImpl;
 
   factory _ConnpassEvent.fromJson(Map<String, dynamic> json) =
-      _$_ConnpassEvent.fromJson;
+      _$ConnpassEventImpl.fromJson;
 
   @override
-  bool get isExpanded => throw _privateConstructorUsedError;
+  bool get isExpanded;
   @override
-  int get eventId => throw _privateConstructorUsedError;
+  int get eventId;
   @override
-  String get title => throw _privateConstructorUsedError;
+  String get title;
   @override
-  String get catchKey => throw _privateConstructorUsedError;
+  String get catchKey;
   @override
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
-  String get eventUrl => throw _privateConstructorUsedError;
+  String get eventUrl;
   @override
-  String get startedAt => throw _privateConstructorUsedError;
+  String get startedAt;
   @override
-  int get limit => throw _privateConstructorUsedError;
+  int get limit;
   @override
-  String get hashTag => throw _privateConstructorUsedError;
+  String get hashTag;
   @override
-  String get eventType => throw _privateConstructorUsedError;
+  String get eventType;
   @override
-  int get accepted => throw _privateConstructorUsedError;
+  int get accepted;
   @override
-  int get waiting => throw _privateConstructorUsedError;
+  int get waiting;
   @override
-  String get updatedAt => throw _privateConstructorUsedError;
+  String get updatedAt;
   @override
-  int get ownerId => throw _privateConstructorUsedError;
+  int get ownerId;
   @override
-  String get ownerNickname => throw _privateConstructorUsedError;
+  String get ownerNickname;
   @override
-  String get ownerDisplayName => throw _privateConstructorUsedError;
+  String get ownerDisplayName;
   @override
-  String get place => throw _privateConstructorUsedError;
+  String get place;
   @override
-  String get address => throw _privateConstructorUsedError;
+  String get address;
   @override
-  String get lat => throw _privateConstructorUsedError;
+  String get lat;
   @override
-  String get lon => throw _privateConstructorUsedError;
+  String get lon;
   @override
-  EventSeries? get series => throw _privateConstructorUsedError;
+  EventSeries? get series;
+
+  /// Create a copy of ConnpassEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$_ConnpassEventCopyWith<_$_ConnpassEvent> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ConnpassEventImplCopyWith<_$ConnpassEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -622,8 +649,12 @@ mixin _$EventSeries {
   String get title => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
 
+  /// Serializes this EventSeries to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EventSeries
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EventSeriesCopyWith<EventSeries> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -632,77 +663,85 @@ mixin _$EventSeries {
 abstract class $EventSeriesCopyWith<$Res> {
   factory $EventSeriesCopyWith(
           EventSeries value, $Res Function(EventSeries) then) =
-      _$EventSeriesCopyWithImpl<$Res>;
+      _$EventSeriesCopyWithImpl<$Res, EventSeries>;
+  @useResult
   $Res call({int id, String title, String url});
 }
 
 /// @nodoc
-class _$EventSeriesCopyWithImpl<$Res> implements $EventSeriesCopyWith<$Res> {
+class _$EventSeriesCopyWithImpl<$Res, $Val extends EventSeries>
+    implements $EventSeriesCopyWith<$Res> {
   _$EventSeriesCopyWithImpl(this._value, this._then);
 
-  final EventSeries _value;
   // ignore: unused_field
-  final $Res Function(EventSeries) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  /// Create a copy of EventSeries
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? title = freezed,
-    Object? url = freezed,
+    Object? id = null,
+    Object? title = null,
+    Object? url = null,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_EventSeriesCopyWith<$Res>
+abstract class _$$EventSeriesImplCopyWith<$Res>
     implements $EventSeriesCopyWith<$Res> {
-  factory _$$_EventSeriesCopyWith(
-          _$_EventSeries value, $Res Function(_$_EventSeries) then) =
-      __$$_EventSeriesCopyWithImpl<$Res>;
+  factory _$$EventSeriesImplCopyWith(
+          _$EventSeriesImpl value, $Res Function(_$EventSeriesImpl) then) =
+      __$$EventSeriesImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({int id, String title, String url});
 }
 
 /// @nodoc
-class __$$_EventSeriesCopyWithImpl<$Res> extends _$EventSeriesCopyWithImpl<$Res>
-    implements _$$_EventSeriesCopyWith<$Res> {
-  __$$_EventSeriesCopyWithImpl(
-      _$_EventSeries _value, $Res Function(_$_EventSeries) _then)
-      : super(_value, (v) => _then(v as _$_EventSeries));
+class __$$EventSeriesImplCopyWithImpl<$Res>
+    extends _$EventSeriesCopyWithImpl<$Res, _$EventSeriesImpl>
+    implements _$$EventSeriesImplCopyWith<$Res> {
+  __$$EventSeriesImplCopyWithImpl(
+      _$EventSeriesImpl _value, $Res Function(_$EventSeriesImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _$_EventSeries get _value => super._value as _$_EventSeries;
-
+  /// Create a copy of EventSeries
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? title = freezed,
-    Object? url = freezed,
+    Object? id = null,
+    Object? title = null,
+    Object? url = null,
   }) {
-    return _then(_$_EventSeries(
-      id: id == freezed
+    return _then(_$EventSeriesImpl(
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      title: title == freezed
+      title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
@@ -712,11 +751,11 @@ class __$$_EventSeriesCopyWithImpl<$Res> extends _$EventSeriesCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_EventSeries implements _EventSeries {
-  _$_EventSeries({this.id = 0, this.title = '', this.url = ''});
+class _$EventSeriesImpl implements _EventSeries {
+  _$EventSeriesImpl({this.id = 0, this.title = '', this.url = ''});
 
-  factory _$_EventSeries.fromJson(Map<String, dynamic> json) =>
-      _$$_EventSeriesFromJson(json);
+  factory _$EventSeriesImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EventSeriesImplFromJson(json);
 
   @override
   @JsonKey()
@@ -734,49 +773,53 @@ class _$_EventSeries implements _EventSeries {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EventSeries &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.title, title) &&
-            const DeepCollectionEquality().equals(other.url, url));
+            other is _$EventSeriesImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.url, url) || other.url == url));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(title),
-      const DeepCollectionEquality().hash(url));
+  int get hashCode => Object.hash(runtimeType, id, title, url);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EventSeries
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  _$$_EventSeriesCopyWith<_$_EventSeries> get copyWith =>
-      __$$_EventSeriesCopyWithImpl<_$_EventSeries>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$EventSeriesImplCopyWith<_$EventSeriesImpl> get copyWith =>
+      __$$EventSeriesImplCopyWithImpl<_$EventSeriesImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_EventSeriesToJson(this);
+    return _$$EventSeriesImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _EventSeries implements EventSeries {
   factory _EventSeries({final int id, final String title, final String url}) =
-      _$_EventSeries;
+      _$EventSeriesImpl;
 
   factory _EventSeries.fromJson(Map<String, dynamic> json) =
-      _$_EventSeries.fromJson;
+      _$EventSeriesImpl.fromJson;
 
   @override
-  int get id => throw _privateConstructorUsedError;
+  int get id;
   @override
-  String get title => throw _privateConstructorUsedError;
+  String get title;
   @override
-  String get url => throw _privateConstructorUsedError;
+  String get url;
+
+  /// Create a copy of EventSeries
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$_EventSeriesCopyWith<_$_EventSeries> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$EventSeriesImplCopyWith<_$EventSeriesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
