@@ -48,3 +48,4 @@ runs:
 
     - name: Install dependencies
       run: flutter pub get
+      shell: bash
