@@ -1,4 +1,6 @@
-name: "CI Setup"
+name: "Flutter CI Action"
+
+description: "Sets up Flutter SDK, caches the SDK and packages, and installs dependencies."
 
 inputs:
   flutter-version:
@@ -9,11 +11,12 @@ inputs:
     description: "The Flutter channel to use."
     required: false
     default: "stable"
+  flutter-root:
+    description: "The Flutter SDK root directory."
+    required: false
+    default: "./flutter-sdk"
 
 runs:
-  env:
-    FLUTTER_ROOT: ${{ github.workspace }}/flutter-sdk
-
   using: "composite"
   steps:
     - name: Checkout repository
@@ -22,8 +25,8 @@ runs:
     - name: Cache Flutter SDK
       uses: actions/cache@v3
       with:
-        path: ${{ env.FLUTTER_ROOT }}
-        key: ${{ runner.os }}-flutter-sdk-cache-${{ inputs.flutter_version }}-${{ inputs.flutter-channel }}
+        path: ${{ inputs.flutter-root }}
+        key: ${{ runner.os }}-flutter-sdk-cache-${{ inputs.flutter-version }}-${{ inputs.flutter-channel }}
         restore-keys: |
           ${{ runner.os }}-flutter-sdk-cache-
 
