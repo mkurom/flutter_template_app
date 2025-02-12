@@ -1,10 +1,19 @@
 name: "CI Setup"
 
-env:
-  flutter_version: 3.27.4
-  FLUTTER_ROOT: ${{ github.workspace }}/flutter-sdk
+inputs:
+  flutter-version:
+    description: "The Flutter version to use."
+    required: false
+    default: "3.27.4"
+  flutter-channel:
+    description: "The Flutter channel to use."
+    required: false
+    default: "stable"
 
 runs:
+  env:
+    FLUTTER_ROOT: ${{ github.workspace }}/flutter-sdk
+
   using: "composite"
   steps:
     - name: Checkout repository
@@ -14,15 +23,15 @@ runs:
       uses: actions/cache@v3
       with:
         path: ${{ env.FLUTTER_ROOT }}
-        key: ${{ runner.os }}-flutter-sdk-cache-${{ env.flutter_version }}
+        key: ${{ runner.os }}-flutter-sdk-cache-${{ inputs.flutter_version }}-${{ inputs.flutter-channel }}
         restore-keys: |
           ${{ runner.os }}-flutter-sdk-cache-
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: ${{ env.flutter_version }}
-        channel: stable
+        flutter-version: ${{ inputs.flutter-version }}
+        channel: ${{ inputs.flutter-channel }}
 
     - name: Cache Flutter packages
       uses: actions/cache@v3
