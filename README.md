@@ -29,8 +29,8 @@ lib/
 │ └── usecases/ : ドメインサービス
 │
 └── presentation/
-├── page/ : UI と notifier(viewmodel, application service の役割)
-└── widgets/ : 共通の再利用可能な UI コンポーネント
+  ├── page/ : UI と notifier(viewmodel, application service の役割)
+  └── widgets/ : 共通の再利用可能な UI コンポーネント
 ```
 
 ## アーキテクチャ各層の説明
@@ -48,14 +48,18 @@ lib/
 #### Infrastructure 層
 
 - 外部リソース（API やデバイスのストレージなど）とやりとりする処理をまとめる
-- Dart だけに依存
+- Dart に依存
 
 ## 依存関係
 
+```
 Presentation 層, Infrastructure 層
-↓
-Domain 層(usecase)
-↓
+↓                   ↓
+Domain 層(usecase)  ↓
+↓                   ↓
 Domain 層(entity, repository)
+```
 
+```
 page(Presentation) → notifier(Presentation) → usecase → repository(domain) ← repository(infrastructure)
+```
