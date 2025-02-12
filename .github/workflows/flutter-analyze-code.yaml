@@ -1,4 +1,4 @@
-name: Flutter Unit Tests
+name: Flutter Analyze Code
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ env:
 
 jobs:
   test:
-    name: Unit Tests
+    name: Analyze Code
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
@@ -23,5 +23,5 @@ jobs:
         with:
           flutter-root: ${{ github.workspace }}/flutter-sdk
 
-      - name: Run tests
-        run: flutter test
+      - name: Analyze Code
+        run: flutter analyze
