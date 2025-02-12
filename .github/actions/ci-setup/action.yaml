@@ -1,0 +1,38 @@
+name: "CI Setup"
+
+env:
+  flutter_version: 3.27.4
+  FLUTTER_ROOT: ${{ github.workspace }}/flutter-sdk
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Cache Flutter SDK
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.FLUTTER_ROOT }}
+        key: ${{ runner.os }}-flutter-sdk-cache-${{ env.flutter_version }}
+        restore-keys: |
+          ${{ runner.os }}-flutter-sdk-cache-
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ env.flutter_version }}
+        channel: stable
+
+    - name: Cache Flutter packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.pub-cache
+          ${{ github.workspace }}/.dart_tool
+        key: ${{ runner.os }}-flutter-packages-cache-${{ hashFiles('pubspec.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-flutter-packages-cache-
+
+    - name: Install dependencies
+      run: flutter pub get
