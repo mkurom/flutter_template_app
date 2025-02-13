@@ -35,7 +35,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   json_serializable: ^6.2.0
 
-  flutter_html: ^2.2.1
+  # flutter_html: ^2.2.1
 
   # 状態管理
   riverpod: ^2.6.1
