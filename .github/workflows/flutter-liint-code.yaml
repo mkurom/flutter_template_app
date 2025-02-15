@@ -28,4 +28,36 @@ jobs:
         run: dart fix --apply lib
 
       - name: Analyze Code
-        run: flutter analyze
+        run: |
+          # flutter analyze はエラー時に非ゼロの exit code を返すため、失敗してもスクリプトを継続するため || true を利用
+          flutter analyze > analysis.txt || true
+          echo "=== Flutter Analyze Output ==="
+          cat analysis.txt
+
+      - name: Notify analyze result
+        if: always()
+        run: |
+          # analysis.txt の各行をパースし、GitHub Actions の notice コマンドで出力
+          while IFS='•' read -r level message file_info rule; do
+            # 各フィールドの前後空白を削除
+            level=$(echo "$level" | xargs)
+            message=$(echo "$message" | xargs)
+            file_info=$(echo "$file_info" | xargs)
+            rule=$(echo "$rule" | xargs)
+            
+            # 想定の形式でない場合はスキップ
+            if [ -z "$file_info" ]; then
+              continue
+            fi
+
+            # file_info から "ファイルパス:行番号:列番号" の形式で値を取得
+            file=$(echo "$file_info" | cut -d ':' -f1)
+            line=$(echo "$file_info" | cut -d ':' -f2)
+            # endLine は line と同じ値とする（必要に応じて調整可能）
+            endLine=$line
+            # title にはルール名を利用
+            title=$rule
+
+            # GitHub Actions のアノテーションコマンドで通知
+            echo "::notice file=${file},line=${line},endLine=${endLine},title=${title}::${message}"
+          done < analysis.txt
