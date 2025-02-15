@@ -1,4 +1,4 @@
-name: Flutter Analyze Code
+name: Flutter Lint Code
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ env:
   flutter_version: 3.27.4
 
 jobs:
-  test:
+  lint:
     name: Analyze Code
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -22,6 +22,10 @@ jobs:
         uses: ./.github/actions/ci-setup
         with:
           flutter-root: ${{ github.workspace }}/flutter-sdk
+
+      - name: Lint Code
+        # run: flutter analyze
+        run: dart fix --apply lib
 
       - name: Analyze Code
         run: flutter analyze
