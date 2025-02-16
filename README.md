@@ -38,7 +38,8 @@ lib/
 #### Presentation 層
 
 - Presentation 層は、Widget や state, 描画周りのロジックを担当
-- FLutter に依存
+- application serviceの責務もview model で担う（肥大化したら、分割する）
+- Flutter に依存
 
 #### Domain 層
 
@@ -58,7 +59,11 @@ Presentation 層, Infrastructure 層
 Domain 層(usecase)  ↓
 ↓                   ↓
 Domain 層(entity, repository)
+
+※Presentation層の application service もになっている view model が肥大化したら、
+Presentation 層 と Domain 層(usecase) の間に Application層を追加する
 ```
+
 
 ```
 page(Presentation) → notifier(Presentation) → usecase → repository(domain) ← repository(infrastructure)
