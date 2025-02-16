@@ -60,7 +60,7 @@ Domain 層(usecase)  ↓
 ↓                   ↓
 Domain 層(entity, repository)
 
-※Presentation層の application service もになっている view model が肥大化したら、
+※Presentation層は application service も担っている view model が肥大化したら、
 Presentation 層 と Domain 層(usecase) の間に Application層を追加する
 ```
 
