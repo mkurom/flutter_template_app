@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template_app/app_route.dart';
-import 'package:flutter_template_app/app_route_stack.dart';
+import 'package:flutter_template_app/presentation/app_route.dart';
+import 'package:flutter_template_app/presentation/app_route_stack.dart';
 
 class AppPage extends StatelessWidget {
   const AppPage({super.key});

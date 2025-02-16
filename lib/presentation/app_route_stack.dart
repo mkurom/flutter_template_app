@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template_app/presentation/pages/connpass_event/connpass_event_page.dart';
 import 'package:flutter_template_app/presentation/pages/home/home_page.dart';
 import 'package:flutter_template_app/presentation/pages/todo/todo_page.dart';
-import 'package:flutter_template_app/tab_navigator.dart';
+import 'package:flutter_template_app/presentation/tab_navigator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final tabViewIndexProvider = StateProvider<int>((ref) => 0);
