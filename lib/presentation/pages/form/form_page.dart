@@ -4,14 +4,20 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class FormPage extends HookConsumerWidget {
-  const FormPage({Key? key}) : super(key: key);
+  const FormPage({super.key});
+
+  static Route<dynamic> route() {
+    return MaterialPageRoute<dynamic>(
+      builder: (_) => const FormPage(),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = useState(false);
     final formKey = useMemoized(GlobalKey<FormState>.new, const []);
-    final email = useState("");
-    final password = useState("");
+    final email = useState('');
+    final password = useState('');
     final controller = useTextEditingController(text: 'initial text');
 
     final onSubmit = useMemoized(
@@ -47,7 +53,8 @@ class FormPage extends HookConsumerWidget {
                 children: [
                   TextFormField(onSaved: (value) => email.value = value ?? ''),
                   TextFormField(
-                      onSaved: (value) => password.value = value ?? ''),
+                    onSaved: (value) => password.value = value ?? '',
+                  ),
                   TextFormField(
                     controller: controller,
                     keyboardType: TextInputType.emailAddress,
@@ -55,7 +62,7 @@ class FormPage extends HookConsumerWidget {
                   ElevatedButton(
                     onPressed: onSubmit,
                     child: const Text('submit'),
-                  )
+                  ),
                 ],
               ),
             ),

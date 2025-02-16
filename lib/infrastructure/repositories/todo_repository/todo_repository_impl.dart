@@ -1,24 +1,23 @@
 import 'package:flutter_template_app/common/index.dart';
+import 'package:flutter_template_app/domain/entities/result/result.dart';
+import 'package:flutter_template_app/domain/entities/todo/todo.dart';
 import 'package:flutter_template_app/domain/repositories/todo_repository.dart';
 import 'package:flutter_template_app/infrastructure/api_client/dio_api_client.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:flutter_template_app/domain/entities/result/result.dart';
-import 'package:flutter_template_app/domain/entities/todo/todo.dart';
-
 final todoRepository =
-    Provider.autoDispose<TodoRepository>((ref) => TodoRepositoryImpl(ref));
+    Provider.autoDispose<TodoRepository>(TodoRepositoryImpl.new);
 
 class TodoRepositoryImpl implements TodoRepository {
-  final Ref ref;
   TodoRepositoryImpl(this.ref);
+  final Ref ref;
   // final _apiClient = ApiClientImpl(baseUrl: jsonplaceholderUrl);
   // final _apiClient = ChopperApiService.create(
   //     ChopperClientCreator.create(baseUrl: jsonplaceholderUrl));
   final _apiClient = DioClient(baseUrl: jsonplaceholderUrl);
 
   // failureは暫定的にint型にしている
-  // TODO: failureの時の戻り値を修正する
+  // failureの時の戻り値を修正する
   @override
   Future<Result<List<Todo>, int>> fetchTodoList() async {
     final response = await _apiClient.fetchTodos();

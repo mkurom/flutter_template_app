@@ -21,16 +21,16 @@ class _AppLifecycleObserver extends WidgetsBindingObserver {
 
     if (state == AppLifecycleState.paused) {
       //
-      print('pause');
+      debugPrint('pause');
     } else if (state == AppLifecycleState.inactive) {
       //
-      print('inactive');
+      debugPrint('inactive');
     } else if (state == AppLifecycleState.resumed) {
       //
-      print('resume');
+      debugPrint('resume');
     } else if (state == AppLifecycleState.detached) {
       //
-      print('detecte');
+      debugPrint('detecte');
     }
 
     super.didChangeAppLifecycleState(state);

@@ -3,7 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_template_app/providers/firebase_auth/authenticator.dart';
 
 class UserInfo extends ConsumerWidget {
-  const UserInfo({Key? key}) : super(key: key);
+  const UserInfo({super.key});
+
+  static Route<dynamic> route() {
+    return MaterialPageRoute<dynamic>(
+      builder: (_) => const UserInfo(),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
