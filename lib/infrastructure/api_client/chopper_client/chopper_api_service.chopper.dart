@@ -19,13 +19,13 @@ final class _$ChopperApiService extends ChopperApiService {
   final Type definitionType = ChopperApiService;
 
   @override
-  Future<Response<dynamic>> fetchTodos() {
+  Future<Response<Result<List<Todo>, int>>> fetchTodos() {
     final Uri $url = Uri.parse('/todos');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<Result<List<Todo>, int>, Todo>($request);
   }
 }
