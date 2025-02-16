@@ -1,4 +1,4 @@
-import 'package:flutter_template_app/common/index.dart';
+import 'package:flutter_template_app/core/constants/index.dart';
 import 'package:flutter_template_app/domain/entities/result/result.dart';
 import 'package:flutter_template_app/domain/entities/todo/todo.dart';
 import 'package:flutter_template_app/domain/repositories/todo_repository.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template_app/common/index.dart';
+import 'package:flutter_template_app/core/constants/index.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});

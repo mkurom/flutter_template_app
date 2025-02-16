@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template_app/providers/firebase_auth/authenticator.dart';
+import 'package:flutter_template_app/core/providers/firebase_auth/authenticator.dart';
 
 class UserInfo extends ConsumerWidget {
   const UserInfo({super.key});

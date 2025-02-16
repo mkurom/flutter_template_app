@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template_app/app_page.dart';
-import 'package:flutter_template_app/life_cycle_provider.dart';
+import 'package:flutter_template_app/core/providers/firebase_auth/authenticator.dart';
+import 'package:flutter_template_app/core/providers/life_cycle_provider.dart';
+import 'package:flutter_template_app/presentation/app_page.dart';
 import 'package:flutter_template_app/presentation/pages/splash/splash_page.dart';
-import 'package:flutter_template_app/providers/firebase_auth/authenticator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class App extends ConsumerWidget {
