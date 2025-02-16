@@ -22,29 +22,34 @@ runs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Cache Flutter SDK
-      uses: actions/cache@v3
-      with:
-        path: ${{ inputs.flutter-root }}
-        key: ${{ runner.os }}-flutter-sdk-cache-${{ inputs.flutter-version }}-${{ inputs.flutter-channel }}
-        restore-keys: |
-          ${{ runner.os }}-flutter-sdk-cache-
+    # - name: Cache Flutter SDK
+    #   uses: actions/cache@v3
+    #   with:
+    #     path: ${{ inputs.flutter-root }}
+    #     key: ${{ runner.os }}-flutter-sdk-cache-${{ inputs.flutter-version }}-${{ inputs.flutter-channel }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-flutter-sdk-cache-
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
         flutter-version: ${{ inputs.flutter-version }}
         channel: ${{ inputs.flutter-channel }}
+        cahce: true
+        cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+        cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
+        pub-cache-key: "flutter-pub:os:-:channel:-:version:-:arch:-:hash:"
+        pub-cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
 
-    - name: Cache Flutter packages
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.pub-cache
-          ${{ github.workspace }}/.dart_tool
-        key: ${{ runner.os }}-flutter-packages-cache-${{ hashFiles('pubspec.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-flutter-packages-cache-
+    # - name: Cache Flutter packages
+    #   uses: actions/cache@v3
+    #   with:
+    #     path: |
+    #       ~/.pub-cache
+    #       ${{ github.workspace }}/.dart_tool
+    #     key: ${{ runner.os }}-flutter-packages-cache-${{ hashFiles('pubspec.yaml') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-flutter-packages-cache-
 
     - name: Install dependencies
       run: flutter pub get
