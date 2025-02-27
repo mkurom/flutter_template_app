@@ -2,6 +2,8 @@
 
 Flutter Blueprint app.
 
+source code 修正中
+
 ## アーキテクチャ
 
 MVVM と クリーンアーキテクチャ を採用
