@@ -6,7 +6,7 @@ source code 修正中
 
 ## アーキテクチャ
 
-MVVM と クリーンアーキテクチャ を採用
+MVVM と オニオンアーキテクチャ を採用
 
 ## ディレクトリ構成
 
@@ -18,6 +18,9 @@ lib/
 │ ├── extensions/ : 拡張関数
 │ ├── providers/ : グローバルで使用する provider(riverpod)
 │ └── utils/ : ヘルパーメソッドなどの共通して使用できるメソッド
+│
+├── application/
+│ └── application_service : アプリケーションサービス
 │
 ├── domain/
 │ ├── entities/ : エンティティ(freezed を使用したモデル)
