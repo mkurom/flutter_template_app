@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:flutter_template_app/domain/entities/todo/todo.dart';
 import 'package:flutter_template_app/infrastructure/repositories/todo_repository/todo_repository_impl.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 enum TodoListFilter {
   all,
@@ -34,11 +33,11 @@ final filteredTodos = Provider<List<Todo>>(
   },
 );
 
-final todoProvider = Provider.autoDispose((ref) => TodoProvider(ref));
+final todoProvider = Provider.autoDispose(TodoProvider.new);
 
 class TodoProvider {
-  final Ref ref;
   TodoProvider(this.ref);
+  final Ref ref;
 
   Future<void> initState() async {
     await fetchTodoList();
@@ -60,13 +59,14 @@ class TodoProvider {
   }
 
   Future<void> toggle(Todo todo) async {
-    final List<Todo> newTodoList = [
+    final newTodoList = <Todo>[
       ...(ref.watch(_todoListState) ?? []).map(
-          (e) => (e.id == todo.id) ? e.copyWith(completed: !e.completed) : e)
+        (e) => (e.id == todo.id) ? e.copyWith(completed: !e.completed) : e,
+      ),
     ];
     ref.watch(_todoListState.notifier).state = newTodoList;
 
-    // Todo:更新処理を行う
+    // 更新処理を行う
     //await _read(todoRepository).updateTodoList(newTodoList);
   }
 

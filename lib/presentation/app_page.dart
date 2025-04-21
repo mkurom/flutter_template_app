@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template_app/app_route.dart';
-import 'package:flutter_template_app/app_route_stack.dart';
+import 'package:flutter_template_app/presentation/app_route.dart';
+import 'package:flutter_template_app/presentation/app_route_stack.dart';
 
 class AppPage extends StatelessWidget {
-  const AppPage({Key? key}) : super(key: key);
+  const AppPage({super.key});
+
+  static Route<dynamic> route() {
+    return MaterialPageRoute<dynamic>(
+      builder: (_) => const AppPage(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,25 +20,22 @@ class AppPage extends StatelessWidget {
         children: [
           Center(
             child: TextButton(
-              child: const Text('app_route'),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AppRoute()),
+                Navigator.of(context).push(
+                  AppRoute.route(),
                 );
               },
+              child: const Text('app_route'),
             ),
           ),
           Center(
             child: TextButton(
-              child: const Text('app_route_stack'),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AppRouteStack()),
+                Navigator.of(context).push(
+                  AppRouteStack.route(),
                 );
               },
+              child: const Text('app_route_stack'),
             ),
           ),
         ],

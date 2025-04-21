@@ -6,10 +6,10 @@ class TabNavigatorRoutes {
 
 class TabNavigator extends StatelessWidget {
   const TabNavigator({
-    Key? key,
+    super.key,
     required this.navigatorKey,
     required this.page,
-  }) : super(key: key);
+  });
 
   final GlobalKey<NavigatorState> navigatorKey;
   final Widget page;
@@ -27,7 +27,7 @@ class TabNavigator extends StatelessWidget {
       key: navigatorKey,
       initialRoute: TabNavigatorRoutes.root,
       onGenerateRoute: (routeSettings) {
-        final name = routeSettings.name as String;
+        final name = routeSettings.name!;
         final widget = routeBuilders[name]!;
         return MaterialPageRoute<StatefulWidget>(
           builder: widget,

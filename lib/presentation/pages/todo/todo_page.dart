@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+import 'package:flutter_template_app/core/providers/todo/todo_provider.dart';
 import 'package:flutter_template_app/domain/entities/todo/todo.dart';
-import 'package:flutter_template_app/providers/todo/todo_provider.dart';
 import 'package:flutter_template_app/presentation/pages/splash/splash_page.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final addTodoKey = UniqueKey();
 final activeFilterKey = UniqueKey();
@@ -15,14 +14,20 @@ final allFilterKey = UniqueKey();
 class TodoPage extends HookConsumerWidget {
   const TodoPage({super.key});
 
+  static Route<dynamic> route() {
+    return MaterialPageRoute<dynamic>(
+      builder: (_) => const TodoPage(),
+    );
+  }
+
   Future<void> fetch(WidgetRef ref) async {
     try {
       await ref.read(todoProvider).initState();
-    } catch (err) {
+    } on Exception catch (err) {
       if (kDebugMode) {
         print(err);
       }
-      // TODO:エラーダイアログの表示
+      // エラーダイアログの表示
     }
   }
 
@@ -30,21 +35,24 @@ class TodoPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = useState<bool>(false);
 
-    useEffect(() {
-      Future(() async {
-        isLoading.value = true;
-        await fetch(ref);
-        isLoading.value = false;
-      });
-      // return null;
-      return ref.read(todoProvider).dispose;
-    }, []);
+    useEffect(
+      () {
+        Future(() async {
+          isLoading.value = true;
+          await fetch(ref);
+          isLoading.value = false;
+        });
+        // return null;
+        return ref.read(todoProvider).dispose;
+      },
+      [],
+    );
 
     if (isLoading.value) {
       return const SplashPage();
     }
 
-    final textController = useTextEditingController();
+    // final textController = useTextEditingController();
     final todoList = ref.watch(filteredTodos);
 
     return Scaffold(
