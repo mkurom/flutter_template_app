@@ -1,0 +1,45 @@
+name: iOS TestFlight
+
+on:
+  push:
+    branches: [ staging ]
+  workflow_dispatch:
+
+jobs:
+  beta:
+    runs-on: macos-latest
+    timeout-minutes: 60
+
+    env:
+      APP_STORE_CONNECT_KEY_ID:     ${{ secrets.APPSTORE_KEY_ID }}
+      APP_STORE_CONNECT_ISSUER_ID:  ${{ secrets.APPSTORE_ISSUER_ID }}
+      APP_STORE_CONNECT_KEY_BASE64: ${{ secrets.APPSTORE_KEY_BASE64 }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: ./.github/actions/ci-setup
+        with:
+          flutter-root: ${{ github.workspace }}/flutter-sdk
+
+      - name: Build iOS (stg)
+        run: |
+          flutter build ios \
+            --flavor stg \
+            --dart-define-from-file=dart_defines/stg.json \
+            --release \
+            --no-codesign
+
+      - name: Create API key
+        run: |
+          echo "$APP_STORE_CONNECT_KEY_BASE64" | base64 --decode > /tmp/AuthKey.p8
+
+      - name: Upload to TestFlight
+        run: |
+            xcrun altool --upload-app \
+                --file build/ios/ipa/Runner.ipa \
+                --type ios \
+                --apiKey $APP_STORE_CONNECT_KEY_ID \
+                --apiIssuer $APP_STORE_CONNECT_ISSUER_ID
