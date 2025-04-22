@@ -27,8 +27,8 @@ jobs:
       - name: Build iOS (stg)
         run: |
           flutter build ios \
-            --flavor stg \
-            --dart-define-from-file=dart_defines/stg.json \
+            # --flavor stg \
+            # --dart-define-from-file=dart_defines/stg.json \
             --release \
             --no-codesign
 
