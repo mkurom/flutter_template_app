@@ -10,6 +10,17 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 60
 
+    env:
+      KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+      ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      APP_IDENTIFIER: ${{ secrets.APP_IDENTIFIER }}
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      TEAM_ID: ${{ secrets.TEAM_ID }}
+      APP_STORE_CONNECT_API_KEY_PATH: ./key.json
+      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.ASC_PASSWORD }}
+      CI: "true"
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -18,6 +29,26 @@ jobs:
         uses: ./.github/actions/ci-setup
         with:
           flutter-root: ${{ github.workspace }}/flutter-sdk
+
+      - name: Install Ruby & CocoaPods
+        run: |
+          brew install ruby
+          echo 'export PATH="$(brew --prefix ruby)/bin:$PATH"' >> $GITHUB_ENV
+          export PATH="$(brew --prefix ruby)/bin:$PATH"
+
+          # 既存 CocoaPods を完全削除
+          brew uninstall cocoapods || true
+          sudo gem uninstall cocoapods -aIx || true
+
+          # gem 版で再インストール
+          gem install cocoapods
+          pod repo update
+        working-directory: ios
+
+      - name: pod install
+        run: |
+          cd ios
+          pod install --repo-update
 
       # ios ディレクトリは以下の Gemfile を使用
       - uses: ruby/setup-ruby@v1
@@ -33,13 +64,3 @@ jobs:
       - name: fastlane beta
         working-directory: ios
         run: bundle exec fastlane beta
-        env:
-          KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
-          ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          APP_IDENTIFIER: ${{ secrets.APP_IDENTIFIER }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          TEAM_ID: ${{ secrets.TEAM_ID }}
-          APP_STORE_CONNECT_API_KEY_PATH: ./key.json
-          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.ASC_PASSWORD }}
-          CI: "true"
