@@ -7,7 +7,7 @@ on:
 
 jobs:
   stagingDeploy:
-    runs-on: macos-latest
+    runs-on: macos-14
     timeout-minutes: 60
 
     env:
@@ -17,50 +17,63 @@ jobs:
       APP_IDENTIFIER: ${{ secrets.APP_IDENTIFIER }}
       APPLE_ID: ${{ secrets.APPLE_ID }}
       TEAM_ID: ${{ secrets.TEAM_ID }}
-      APP_STORE_CONNECT_API_KEY_PATH: ./key.json
-      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.ASC_PASSWORD }}
       CI: "true"
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    #--------------------------------------------------
+    # 0. Checkout
+    #--------------------------------------------------
+    - uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: ./.github/actions/ci-setup
-        with:
-          flutter-root: ${{ github.workspace }}/flutter-sdk
+    #--------------------------------------------------
+    # 1. Flutter SDK
+    #--------------------------------------------------
+    - name: Setup Flutter
+      uses: ./.github/actions/ci-setup
+      with:
+        flutter-root: ${{ github.workspace }}/flutter-sdk
 
-      - name: Install Ruby & CocoaPods
-        run: |
-          brew install ruby
-          echo 'export PATH="$(brew --prefix ruby)/bin:$PATH"' >> $GITHUB_ENV
-          export PATH="$(brew --prefix ruby)/bin:$PATH"
-
-          # 既存 CocoaPods を完全削除
-          brew uninstall cocoapods || true
-          sudo gem uninstall cocoapods -aIx || true
-
-          # gem 版で再インストール
-          gem install cocoapods
-          pod repo update
+    #--------------------------------------------------
+    # 2. Ruby 3.3 + CocoaPods（**これ 1 回だけ**）
+    #--------------------------------------------------
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'          # ← ここで Ruby を確定
+        bundler-cache: true
         working-directory: ios
 
-      - name: pod install
-        run: |
-          cd ios
-          pod install --repo-update
+    - name: Install CocoaPods
+      run: |
+        gem install cocoapods
+        pod repo update
+      working-directory: ios
 
-      # ios ディレクトリは以下の Gemfile を使用
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.3
-          bundler-cache: true
-          working-directory: ios
+    # CocoaPods の bin を次ステップ以降にも見せる
+    - run: echo "$HOME/.gem/ruby/3.3.0/bin" >> $GITHUB_PATH
 
-      - name: Write App Store Connect API key to json file
-        run: echo "${{ secrets.APPSTORE_KEY_ID }}" > ios/key.json
+    #--------------------------------------------------
+    # 3. Resolve Pods
+    #--------------------------------------------------
+    - name: pod install
+      run: |
+        cd ios
+        pod install --repo-update
 
-      # Fastlane 実行（ios ディレクトリ）
-      - name: fastlane beta
-        working-directory: ios
-        run: bundle exec fastlane beta
+    #--------------------------------------------------
+    # 4. App Store Connect API キーを安全に保存
+    #    （json または p8 を **base64** したものを Secret に）
+    #--------------------------------------------------
+    - name: Write ASC API key
+      run: |
+        echo "${{ secrets.APPSTORE_KEY_JSON }}" | base64 -d > ios/key.json
+
+    #--------------------------------------------------
+    # 5. Fastlane
+    #--------------------------------------------------
+    - name: fastlane beta
+      run: |
+        cd ios
+        bundle exec fastlane beta
+      env:
+        APP_STORE_CONNECT_API_KEY_PATH: ./key.json
+        FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.ASC_PASSWORD }}
