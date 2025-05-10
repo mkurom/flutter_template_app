@@ -1,0 +1,8 @@
+git_url("https://github.com/mkurom/flutter_template_app")
+
+storage_mode("git")
+
+type("appstore") # The default type, can be: appstore, adhoc, enterprise or development
+
+app_identifier(ENV['APP_IDENTIFIER'])
+username(ENV['APPLE_ID'])

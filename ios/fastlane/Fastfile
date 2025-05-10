@@ -1,0 +1,55 @@
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Description of what the lane does"
+
+  def flutter_version
+    data = YAML.load_file('../pubspec.yaml')
+    build_name, build_number = data['version'].split('+')
+    { name: build_name, number: build_number }
+  end
+
+  lane :beta do
+    # 証明書、プロビジョニングファイルの作成、同期
+		# ENV['CI'] は GitHub Actions で実行しているかどうかを判定するための環境変数
+    sync_code_signing(
+      type: "appstore",
+      readonly: ENV['CI'] == 'true'
+    )
+
+    # Flutter のビルド
+    Dir.chdir('..') do
+      sh "flutter", "build", "ios", "--release", "--no-codesign"
+    end
+		
+    # fastlane のビルド番号を上書き
+    next_build = flutter_version
+    increment_version_number(version_number: next_build[:name])
+    increment_build_number(build_number: next_build[:number])
+
+    # Xcode のビルド
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      clean: true,
+      silent: true,
+      export_options: {
+        provisioningProfiles: {
+          "com.my.flutterTemplateApp" => "match AppStore com.my.flutterTemplateApp"
+        }
+      }
+    )
+    
+		# アップロード
+    upload_to_testflight(
+			skip_waiting_for_build_processing: true
+    )
+
+    # 
+    clean_build_artifacts
+
+    UI.success("🎉  Build #{next_build} が TestFlight にアップロードされました！")
+  end
+end
