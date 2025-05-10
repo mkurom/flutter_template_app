@@ -10,11 +10,6 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 60
 
-    env:
-      APP_STORE_CONNECT_KEY_ID:     ${{ secrets.APPSTORE_KEY_ID }}
-      APP_STORE_CONNECT_ISSUER_ID:  ${{ secrets.APPSTORE_ISSUER_ID }}
-      APP_STORE_CONNECT_KEY_BASE64: ${{ secrets.APPSTORE_KEY_BASE64 }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -24,22 +19,27 @@ jobs:
         with:
           flutter-root: ${{ github.workspace }}/flutter-sdk
 
-      - name: Build iOS (stg)
-        run: |
-          flutter build ios \
-            # --flavor stg \
-            # --dart-define-from-file=dart_defines/stg.json \
-            --release \
-            --no-codesign
+      # ios ディレクトリは以下の Gemfile を使用
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+          working-directory: ios
 
-      - name: Create API key
-        run: |
-          echo "$APP_STORE_CONNECT_KEY_BASE64" | base64 --decode > /tmp/AuthKey.p8
+      - name: Write App Store Connect API key to json file
+        run: echo "${{ secrets.APPSTORE_KEY_ID }}" > ios/key.json
 
-      - name: Upload to TestFlight
-        run: |
-            xcrun altool --upload-app \
-                --file build/ios/ipa/Runner.ipa \
-                --type ios \
-                --apiKey $APP_STORE_CONNECT_KEY_ID \
-                --apiIssuer $APP_STORE_CONNECT_ISSUER_ID
+      # Fastlane 実行（ios ディレクトリ）
+      - name: fastlane beta
+        working-directory: ios
+        run: bundle exec fastlane beta
+        env:
+          KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          APP_IDENTIFIER: ${{ secrets.APP_IDENTIFIER }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          TEAM_ID: ${{ secrets.TEAM_ID }}
+          APP_STORE_CONNECT_API_KEY_PATH: ./key.json
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.ASC_PASSWORD }}
+          CI: "true"
