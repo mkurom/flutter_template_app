@@ -20,13 +20,14 @@ jobs:
       CI: "true"
 
     steps:
+    
     #--------------------------------------------------
-    # 0. Checkout
+    # Checkout
     #--------------------------------------------------
     - uses: actions/checkout@v4
 
     #--------------------------------------------------
-    # 1. Flutter SDK
+    # Flutter SDK
     #--------------------------------------------------
     - name: Setup Flutter
       uses: ./.github/actions/ci-setup
@@ -34,11 +35,17 @@ jobs:
         flutter-root: ${{ github.workspace }}/flutter-sdk
 
     #--------------------------------------------------
-    # 2. Ruby 3.3 + CocoaPods（**これ 1 回だけ**）
+    # Xcode 15.4
+    #--------------------------------------------------
+    - name: Select Xcode 15.4
+      run: sudo xcode-select -s /Applications/Xcode_15.4.app
+
+    #--------------------------------------------------
+    # Ruby 3.3 + CocoaPods
     #--------------------------------------------------
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.3'          # ← ここで Ruby を確定
+        ruby-version: '3.3'
         bundler-cache: true
         working-directory: ios
 
@@ -52,7 +59,7 @@ jobs:
     - run: echo "$HOME/.gem/ruby/3.3.0/bin" >> $GITHUB_PATH
 
     #--------------------------------------------------
-    # 3. Resolve Pods
+    # Resolve Pods
     #--------------------------------------------------
     - name: pod install
       run: |
@@ -60,7 +67,7 @@ jobs:
         pod install --repo-update
 
     #--------------------------------------------------
-    # 4. App Store Connect API キーを安全に保存
+    # App Store Connect API キーを安全に保存
     #    （json または p8 を **base64** したものを Secret に）
     #--------------------------------------------------
     - name: Write ASC API key
@@ -68,7 +75,7 @@ jobs:
         echo "${{ secrets.APPSTORE_KEY_JSON }}" | base64 -d > ios/key.json
 
     #--------------------------------------------------
-    # 5. Fastlane
+    # Fastlane
     #--------------------------------------------------
     - name: fastlane beta
       run: |
