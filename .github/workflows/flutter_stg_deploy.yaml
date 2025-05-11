@@ -80,7 +80,21 @@ jobs:
     - name: fastlane beta
       run: |
         cd ios
-        bundle exec fastlane beta
+        bundle exec fastlane ios beta --verbose 2>&1 | tee fastlane.log
       env:
         APP_STORE_CONNECT_API_KEY_PATH: ./key.json
         FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.ASC_PASSWORD }}
+        FASTLANE_XCODEBUILD_LOGS: "1" 
+
+    #--------------------------------------------------
+    # Error Log
+    #--------------------------------------------------
+    - name: Upload build logs
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: fastlane-build-logs
+        path: |
+          fastlane.log
+          fastlane/build_logs/**/*.log
+          $HOME/Library/Logs/gym
