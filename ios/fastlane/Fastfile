@@ -6,7 +6,7 @@ platform :ios do
 
 	def flutter_version
 		# ios/fastlane からプロジェクトルートを求める
-		project_root = File.expand_path('..', __dir__)
+		project_root = File.expand_path('../../', __dir__)
 	
 		pubspec_path = File.join(project_root, 'pubspec.yaml')
 	
