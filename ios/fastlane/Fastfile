@@ -44,8 +44,7 @@ platform :ios do
         provisioningProfiles: {
           "com.my.flutterTemplateApp" => "match AppStore com.my.flutterTemplateApp"
         }
-      },
-			drop_flags: "-quiet"
+      }
     )
     
 		# アップロード
