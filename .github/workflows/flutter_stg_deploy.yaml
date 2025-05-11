@@ -79,6 +79,7 @@ jobs:
     #--------------------------------------------------
     - name: fastlane beta
       run: |
+        set -eo pipefail
         cd ios
         bundle exec fastlane ios beta --verbose 2>&1 | tee fastlane.log
       env:
@@ -95,6 +96,6 @@ jobs:
       with:
         name: fastlane-build-logs
         path: |
-          fastlane.log
-          fastlane/build_logs/**/*.log
+          ios/fastlane.log
+          ios/fastlane/build_logs/**/*.log
           $HOME/Library/Logs/gym
