@@ -23,10 +23,10 @@ platform :ios do
       readonly: ENV['CI'] == 'true'
     )
 
-    # Flutter のビルド
-    Dir.chdir('..') do
-      sh "flutter", "build", "ios", "--release", "--no-codesign"
-    end
+    # # Flutter のビルド
+    # Dir.chdir('..') do
+    #   sh "flutter", "build", "ios", "--release", "--no-codesign"
+    # end
 		
     # fastlane のビルド番号を上書き
     next_build = flutter_version
