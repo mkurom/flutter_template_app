@@ -78,7 +78,7 @@ platform :ios do
 		)
 		
 		latest_build = latest_testflight_build_number(
-										app_identifier: ENV['APP_IDENTIFIER'],
+										app_identifier: ENV['APPSTORE_IDENTIFIER'],
 										version: current_marketing,
 										api_key: api_key
 									) || 0
@@ -106,7 +106,7 @@ platform :ios do
 		
 		upload_to_testflight(
 			api_key: api_key,
-			app_identifier: ENV['APP_IDENTIFIER'],
+			app_identifier: ENV['APPSTORE_IDENTIFIER'],
 		)
 		clean_build_artifacts
 		

@@ -14,7 +14,7 @@ jobs:
       KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
       ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-      APP_IDENTIFIER: ${{ secrets.APP_IDENTIFIER }}
+      APPSTORE_IDENTIFIER: ${{ secrets.APPSTORE_IDENTIFIER }}
       APPLE_ID: ${{ secrets.APPLE_ID }}
       TEAM_ID: ${{ secrets.TEAM_ID }}
       CI: "true"
