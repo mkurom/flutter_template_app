@@ -38,9 +38,9 @@ platform :ios do
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
       export_method: "app-store",
-      clean: true,
+			skip_build: true,
+      clean: false,
       silent: true,
-			disable_xcpretty: true,
 			buildlog_path: "./fastlane/build_logs",
 			export_options: {
         provisioningProfiles: {

@@ -8,7 +8,7 @@ on:
 jobs:
   stagingDeploy:
     runs-on: macos-14
-    timeout-minutes: 60
+    timeout-minutes: 120
 
     env:
       KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
@@ -20,29 +20,33 @@ jobs:
       CI: "true"
 
     steps:
-    
-    #--------------------------------------------------
-    # Checkout
-    #--------------------------------------------------
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
 
-    #--------------------------------------------------
-    # Flutter SDK
-    #--------------------------------------------------
+    - name: Cache Flutter SDK
+      uses: actions/cache@v4
+      with:
+        path: ${{ runner.tool_cache }}/flutter
+        key: ${{ runner.os }}-flutter-3.27.4-stable
+
+    - name: Cache Flutter packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.pub-cache
+          .dart_tool
+        key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+        restore-keys: ${{ runner.os }}-pub-
+
     - name: Setup Flutter
       uses: ./.github/actions/ci-setup
       with:
-        flutter-root: ${{ github.workspace }}/flutter-sdk
+        flutter-version: "3.27.4"
+        flutter-channel: "stable"
 
-    #--------------------------------------------------
-    # Xcode 15.43
-    #--------------------------------------------------
     - name: Select Xcode 15.3
       run: sudo xcode-select -s /Applications/Xcode_15.3.app
 
-    #--------------------------------------------------
-    # Ruby 3.3 + CocoaPods
-    #--------------------------------------------------
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.3'
@@ -50,33 +54,34 @@ jobs:
         working-directory: ios
 
     - name: Install CocoaPods
-      run: |
-        gem install cocoapods
-        pod repo update
+      run: gem install cocoapods
       working-directory: ios
 
-    # CocoaPods の bin を次ステップ以降にも見せる
-    - run: echo "$HOME/.gem/ruby/3.3.0/bin" >> $GITHUB_PATH
+    - name: Cache CocoaPods
+      uses: actions/cache@v4
+      with:
+        path: ios/Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+        restore-keys: ${{ runner.os }}-pods-
 
-    #--------------------------------------------------
-    # Resolve Pods
-    #--------------------------------------------------
     - name: pod install
-      run: |
-        cd ios
-        pod install --repo-update
+      run: pod install --repo-update --deployment
+      working-directory: ios
 
-    #--------------------------------------------------
-    # App Store Connect API キーを安全に保存
-    #    （json または p8 を **base64** したものを Secret に）
-    #--------------------------------------------------
+    - name: Flutter build (no codesign)
+      run: flutter build ios --release --no-codesign
+
+    - name: Cache DerivedData
+      uses: actions/cache@v4
+      with:
+        path: ~/Library/Developer/Xcode/DerivedData
+        key: ${{ runner.os }}-dd-${{ hashFiles('ios/Podfile.lock') }}-${{ hashFiles('pubspec.lock') }}
+        restore-keys: ${{ runner.os }}-dd-
+
     - name: Write ASC API key
       run: |
         echo "${{ secrets.APPSTORE_KEY_JSON }}" | base64 -d > ios/key.json
 
-    #--------------------------------------------------
-    # Fastlane
-    #--------------------------------------------------
     - name: fastlane beta
       run: |
         set -eo pipefail
@@ -87,10 +92,7 @@ jobs:
         FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.ASC_PASSWORD }}
         FASTLANE_XCODEBUILD_LOGS: "1" 
 
-    #--------------------------------------------------
-    # Error Log
-    #--------------------------------------------------
-    - name: Upload build logs
+    - name: Error logs
       if: failure()
       uses: actions/upload-artifact@v4
       with:
