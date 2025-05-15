@@ -80,16 +80,20 @@ jobs:
     - name: Write ASC API key
       run: |
         echo "${{ secrets.APPSTORE_KEY_JSON }}" | base64 -d > ios/key.json
+        # 権限を確認
+        ls -la ios/key.json
 
     - name: fastlane beta
       run: |
         set -eo pipefail
         cd ios
+        # キーファイルの内容を環境変数に設定
+        export KEY_CONTENT_BASE64=$(cat key.json | base64)
         bundle exec fastlane ios beta --verbose 2>&1 | tee fastlane.log
       env:
         APP_STORE_CONNECT_API_KEY_PATH: ./key.json
         FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.ASC_PASSWORD }}
-        FASTLANE_XCODEBUILD_LOGS: "1" 
+        FASTLANE_XCODEBUILD_LOGS: "1"
 
     - name: Error logs
       if: failure()

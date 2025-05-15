@@ -6,3 +6,6 @@ type("appstore") # The default type, can be: appstore, adhoc, enterprise or deve
 
 app_identifier(ENV['APPSTORE_IDENTIFIER'])
 username(ENV['APPLE_ID'])
+
+# GitHub Actionsで実行する場合はパスワードを環境変数から取得
+password(ENV["MATCH_PASSWORD"])

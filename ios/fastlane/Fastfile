@@ -23,11 +23,7 @@ platform :ios do
       readonly: ENV['CI'] == 'true'
     )
 
-    # # Flutter のビルド
-    # Dir.chdir('..') do
-    #   sh "flutter", "build", "ios", "--release", "--no-codesign"
-    # end
-		
+    # Flutter のビルドはGitHub Actionsのワークフローで既に実行されているため、ここではスキップ
     # fastlane のビルド番号を上書き
     next_build = flutter_version
     increment_version_number(version_number: next_build[:name])
@@ -38,13 +34,12 @@ platform :ios do
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
       export_method: "app-store",
-			skip_build: true,
       clean: false,
       silent: true,
-			buildlog_path: "./fastlane/build_logs",
-			export_options: {
+      buildlog_path: "./fastlane/build_logs",
+      export_options: {
         provisioningProfiles: {
-          "com.my.flutterTemplateApp" => "match AppStore com.my.flutterTemplateApp"
+          ENV['APPSTORE_IDENTIFIER'] => "match AppStore #{ENV['APPSTORE_IDENTIFIER']}"
         }
       }
     )
@@ -99,7 +94,7 @@ platform :ios do
 			silent: true,
 			export_options: {
 				provisioningProfiles: {
-					"com.my.flutterTemplateApp" => "match AppStore com.my.flutterTemplateApp"
+					ENV['APPSTORE_IDENTIFIER'] => "match AppStore #{ENV['APPSTORE_IDENTIFIER']}"
 				}
 			}
 		)
