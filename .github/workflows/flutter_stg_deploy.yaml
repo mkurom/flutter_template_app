@@ -64,7 +64,7 @@ jobs:
         key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
 
     - name: pod install
-      run: pod install --repo-update --clean-install --immutable
+      run: pod install --repo-update --clean-install
       working-directory: ios
 
     - name: Flutter build (no codesign)
