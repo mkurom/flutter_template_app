@@ -19,7 +19,6 @@ platform :ios do
     # 証明書、プロビジョニングファイルの作成、同期
 		# ENV['CI'] は GitHub Actions で実行しているかどうかを判定するための環境変数
     sync_code_signing(
-      type: "appstore",
       readonly: ENV['CI'] == 'true'
     )
 
