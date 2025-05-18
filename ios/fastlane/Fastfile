@@ -4,37 +4,42 @@ default_platform(:ios)
 platform :ios do
   desc "Description of what the lane does"
 
-	def flutter_version
-		# ios/fastlane からプロジェクトルートを求める
-		project_root = File.expand_path('../../', __dir__)
-	
-		pubspec_path = File.join(project_root, 'pubspec.yaml')
-	
-		data = YAML.load_file(pubspec_path)
-		build_name, build_number = data['version'].split('+')
-		{ name: build_name, number: build_number }
-	end
+  def flutter_version
+# ios/fastlane からプロジェクトルートを求める
+    project_root = File.expand_path('../../', __dir__)
+
+    pubspec_path = File.join(project_root, 'pubspec.yaml')
+
+    data = YAML.load_file(pubspec_path)
+    build_name, build_number = data['version'].split('+')
+    { name: build_name, number: build_number }
+  end
 
   lane :beta do
+    UI.success("🚀  iOS アプリのビルド&TestFlightへのアップロードを開始します")
     # 証明書、プロビジョニングファイルの作成、同期
-		# ENV['CI'] は GitHub Actions で実行しているかどうかを判定するための環境変数
+    # ENV['CI'] は GitHub Actions で実行しているかどうかを判定するための環境変数
+	UI
     sync_code_signing(
       readonly: ENV['CI'] == 'true'
     )
-
+    UI.success("🔑  証明書、プロビジョニングファイルの同期が完了しました！")
     # Flutter のビルドはGitHub Actionsのワークフローで既に実行されているため、ここではスキップ
     # fastlane のビルド番号を上書き
+	UI.message("⏫  Auto‑increment build number → #{flutter_version}")
     next_build = flutter_version
     increment_version_number(version_number: next_build[:name])
     increment_build_number(build_number: next_build[:number])
+	UI.success("🔨  Flutter のビルドが完了しました！")
 
     # Xcode のビルド
+	UI.message("🔨  Xcode のビルドを開始します！")
     build_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
       export_method: "app-store",
-      clean: false,
-      silent: true,
+    #   clean: true,
+    #   silent: true,
       buildlog_path: "./fastlane/build_logs",
       export_options: {
         provisioningProfiles: {
@@ -42,14 +47,19 @@ platform :ios do
         }
       }
     )
+	UI.success("🔨  Xcode のビルドが完了しました！")
     
-		# アップロード
+	# アップロード
+	UI.message("⏫  TestFlight にアップロードします！")
     upload_to_testflight(
-			skip_waiting_for_build_processing: true
+      skip_waiting_for_build_processing: true
     )
+	UI.success("⏫  TestFlight にアップロードが完了しました！")
 
-    # 
+    #
+	UI.message("🧹  ビルドアーティファクトをクリーンアップします！") 
     clean_build_artifacts
+	UI.success("🧹  ビルドアーティファクトのクリーンアップが完了しました！")
 
     UI.success("🎉  Build #{next_build} が TestFlight にアップロードされました！")
   end
