@@ -1,4 +1,4 @@
-name: "Flutter CI Action"
+name: "Flutter Setup Action"
 
 description: "Sets up Flutter SDK, caches the SDK and packages, and installs dependencies."
 
