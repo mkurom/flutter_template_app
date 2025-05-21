@@ -39,7 +39,7 @@ jobs:
         restore-keys: ${{ runner.os }}-pub-
 
     - name: Setup Flutter
-      uses: ./.github/actions/ci-setup
+      uses: ./.github/actions/flutter-setup
       with:
         flutter-version: "3.27.4"
         flutter-channel: "stable"
@@ -67,8 +67,8 @@ jobs:
       run: pod install --repo-update --clean-install
       working-directory: ios
 
-    - name: Flutter build (no codesign)
-      run: flutter build ios --release --no-codesign
+    # - name: Flutter build (no codesign)
+    #   run: flutter build ios --release --no-codesign
 
     - name: Cache DerivedData
       uses: actions/cache@v4
@@ -76,6 +76,13 @@ jobs:
         path: ~/Library/Developer/Xcode/DerivedData
         key: ${{ runner.os }}-dd-${{ hashFiles('ios/Podfile.lock') }}-${{ hashFiles('pubspec.lock') }}
         restore-keys: ${{ runner.os }}-dd-
+
+    - name: Read version from pubspec.yaml
+      id: ver
+      run: |
+        v=$(grep '^version:' pubspec.yaml | tr -d ' ')
+        echo "name=${v%%+*}"  >> "$GITHUB_OUTPUT"
+        echo "code=${v##*+}"  >> "$GITHUB_OUTPUT"
 
     - name: Write ASC API key
       run: |
@@ -91,6 +98,9 @@ jobs:
         export KEY_CONTENT_BASE64=$(cat key.json | base64)
         bundle exec fastlane ios beta --verbose 2>&1 | tee fastlane.log
       env:
+        FLUTTER_BUILD_NAME:   ${{ steps.ver.outputs.name }}
+        FLUTTER_BUILD_NUMBER: ${{ steps.ver.outputs.code }}
+        SKIP_FLUTTER_ASSEMBLE: "true"
         APP_STORE_CONNECT_API_KEY_PATH: ./key.json
         FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.ASC_PASSWORD }}
         FASTLANE_XCODEBUILD_LOGS: "1"
