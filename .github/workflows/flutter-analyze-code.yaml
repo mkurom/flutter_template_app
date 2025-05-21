@@ -1,4 +1,4 @@
-name: Flutter Lint Code
+name: Flutter Analyze Code
 
 on:
   pull_request:
@@ -19,13 +19,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Flutter
-        uses: ./.github/actions/ci-setup
+        uses: ./.github/actions/flutter-setup
         with:
           flutter-root: ${{ github.workspace }}/flutter-sdk
-
-      - name: Lint Code
-        # run: flutter analyze
-        run: dart fix --apply lib
 
       - name: Analyze Code
         run: |

@@ -1,0 +1,116 @@
+name: iOS TestFlight
+
+on:
+  push:
+    branches: [ staging ]
+  workflow_dispatch:
+
+jobs:
+  stagingDeploy:
+    runs-on: macos-14
+    timeout-minutes: 120
+
+    env:
+      KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+      ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      APPSTORE_IDENTIFIER: ${{ secrets.APPSTORE_IDENTIFIER }}
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      TEAM_ID: ${{ secrets.TEAM_ID }}
+      CI: "true"
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Cache Flutter SDK
+      uses: actions/cache@v4
+      with:
+        path: ${{ runner.tool_cache }}/flutter
+        key: ${{ runner.os }}-flutter-3.27.4-stable
+
+    - name: Cache Flutter packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.pub-cache
+          .dart_tool
+        key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+        restore-keys: ${{ runner.os }}-pub-
+
+    - name: Setup Flutter
+      uses: ./.github/actions/flutter-setup
+      with:
+        flutter-version: "3.27.4"
+        flutter-channel: "stable"
+
+    - name: Select Xcode 15.3
+      run: sudo xcode-select -s /Applications/Xcode_15.3.app
+
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'
+        bundler-cache: true
+        working-directory: ios
+
+    - name: Install CocoaPods
+      run: gem install cocoapods
+      working-directory: ios
+
+    - name: Cache CocoaPods
+      uses: actions/cache@v4
+      with:
+        path: ios/Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+
+    - name: pod install
+      run: pod install --repo-update --clean-install
+      working-directory: ios
+
+    # - name: Flutter build (no codesign)
+    #   run: flutter build ios --release --no-codesign
+
+    - name: Cache DerivedData
+      uses: actions/cache@v4
+      with:
+        path: ~/Library/Developer/Xcode/DerivedData
+        key: ${{ runner.os }}-dd-${{ hashFiles('ios/Podfile.lock') }}-${{ hashFiles('pubspec.lock') }}
+        restore-keys: ${{ runner.os }}-dd-
+
+    - name: Read version from pubspec.yaml
+      id: ver
+      run: |
+        v=$(grep '^version:' pubspec.yaml | tr -d ' ')
+        echo "name=${v%%+*}"  >> "$GITHUB_OUTPUT"
+        echo "code=${v##*+}"  >> "$GITHUB_OUTPUT"
+
+    - name: Write ASC API key
+      run: |
+        echo "${{ secrets.APPSTORE_KEY_JSON }}" | base64 -d > ios/key.json
+        # 権限を確認
+        ls -la ios/key.json
+
+    - name: fastlane beta
+      run: |
+        set -eo pipefail
+        cd ios
+        # キーファイルの内容を環境変数に設定
+        export KEY_CONTENT_BASE64=$(cat key.json | base64)
+        bundle exec fastlane ios beta --verbose 2>&1 | tee fastlane.log
+      env:
+        FLUTTER_BUILD_NAME:   ${{ steps.ver.outputs.name }}
+        FLUTTER_BUILD_NUMBER: ${{ steps.ver.outputs.code }}
+        SKIP_FLUTTER_ASSEMBLE: "true"
+        APP_STORE_CONNECT_API_KEY_PATH: ./key.json
+        FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.ASC_PASSWORD }}
+        FASTLANE_XCODEBUILD_LOGS: "1"
+
+    - name: Error logs
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: fastlane-build-logs
+        path: |
+          ios/fastlane.log
+          ios/fastlane/build_logs/**/*.log
+          $HOME/Library/Logs/gym

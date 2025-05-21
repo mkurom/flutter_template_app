@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template_app/presentation/pages/connpass_event/connpass_event_page.dart';
 import 'package:flutter_template_app/presentation/pages/home/home_page.dart';
 import 'package:flutter_template_app/presentation/pages/todo/todo_page.dart';
-import 'package:flutter_template_app/tab_navigator.dart';
+import 'package:flutter_template_app/presentation/tab_navigator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final tabViewIndexProvider = StateProvider<int>((ref) => 0);
 
-final navigatorProvider =
-    Provider.autoDispose((ref) => TabNavigatorProvider(ref));
+final navigatorProvider = Provider.autoDispose(TabNavigatorProvider.new);
 
 class TabNavigatorProvider {
-  final Ref _ref;
   TabNavigatorProvider(this._ref);
+  final Ref _ref;
 
   final List<Widget> widgetList = [
     const HomePage(),
@@ -39,13 +38,21 @@ class TabNavigatorProvider {
     );
   }
 
-  void changeTabView(int index) {
+  int get tabIndex => _ref.read(tabViewIndexProvider.notifier).state;
+
+  set tabIndex(int index) {
     _ref.read(tabViewIndexProvider.notifier).state = index;
   }
 }
 
 class AppRouteStack extends HookConsumerWidget {
   const AppRouteStack({super.key});
+
+  static Route<dynamic> route() {
+    return MaterialPageRoute<dynamic>(
+      builder: (_) => const AppRouteStack(),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -60,7 +67,9 @@ class AppRouteStack extends HookConsumerWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: ref.watch(tabViewIndexProvider),
-        onTap: provider.changeTabView,
+        onTap: (index) {
+          provider.tabIndex = index;
+        },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

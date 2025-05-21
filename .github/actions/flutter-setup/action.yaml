@@ -1,0 +1,27 @@
+name: "Flutter Setup Action"
+
+description: "Sets up Flutter SDK, caches the SDK and packages, and installs dependencies."
+
+inputs:
+  flutter-version:
+    description: "Flutter version 3.27.4."
+    required: false
+    default: "3.27.4"
+  flutter-channel:
+    description: "Flutter channel."
+    required: false
+    default: "stable"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ inputs.flutter-version }}
+        channel: ${{ inputs.flutter-channel }}
+        cache: false
+
+    - name: flutter pub get
+      shell: bash
+      run: flutter pub get
